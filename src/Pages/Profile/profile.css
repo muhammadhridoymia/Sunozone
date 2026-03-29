@@ -1,0 +1,160 @@
+/* Simple Profile Page */
+.profile-simple {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 20px 80px 20px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Header */
+.profile-header-simple {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.profile-header-simple h1 {
+  font-size: 1.5rem;
+  color: #2d3748;
+  margin: 0;
+}
+
+/* Profile Card */
+.profile-card-simple {
+  background: white;
+  border-radius: 25px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Image */
+.profile-image-container {
+  margin-bottom: 20px;
+}
+
+.profile-image-simple {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid white;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Name */
+.profile-name-simple {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2d3748;
+  margin-bottom: 30px;
+}
+
+/* Balance Card */
+.balance-card-simple {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 30px;
+  color: white;
+  margin-top: 20px;
+}
+
+.balance-label {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+.balance-amount-simple {
+  margin: 20px 0;
+}
+
+.currency {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-right: 5px;
+}
+
+.amount {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.decimal {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.add-balance-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.add-balance-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-simple {
+    padding: 15px 15px 70px 15px;
+  }
+  
+  .profile-card-simple {
+    padding: 30px 20px;
+  }
+  
+  .profile-image-simple {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profile-name-simple {
+    font-size: 1.5rem;
+  }
+  
+  .amount {
+    font-size: 2rem;
+  }
+  
+  .currency {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-image-simple {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .profile-name-simple {
+    font-size: 1.3rem;
+  }
+  
+  .balance-card-simple {
+    padding: 20px;
+  }
+  
+  .amount {
+    font-size: 1.5rem;
+  }
+  
+  .add-balance-btn {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+  }
+}
