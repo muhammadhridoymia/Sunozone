@@ -66,6 +66,60 @@ const Home = () => {
       image: "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=400&h=300&fit=crop",
       description: "The epic sci-fi masterpiece...",
       duration: "21h 30m"
+    },
+    {
+      id: 1,
+      title: "The Midnight Library",
+      author: "Matt Haig",
+      reads: "125K",
+      image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=300&fit=crop",
+      description: "Between life and death there is a library...",
+      duration: "8h 30m"
+    },
+    {
+      id: 2,
+      title: "Where the Crawdads Sing",
+      author: "Delia Owens",
+      reads: "98.5K",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop",
+      description: "A mysterious murder in the marshes...",
+      duration: "12h 15m"
+    },
+    {
+      id: 3,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      reads: "87.2K",
+      image: "https://images.unsplash.com/photo-1506462945846-9d9d4c6a0d6f?w=400&h=300&fit=crop",
+      description: "A woman's act of violence and her silence...",
+      duration: "9h 45m"
+    },
+    {
+      id: 4,
+      title: "Atomic Habits",
+      author: "James Clear",
+      reads: "156K",
+      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=300&fit=crop",
+      description: "Tiny changes, remarkable results...",
+      duration: "5h 20m"
+    },
+    {
+      id: 5,
+      title: "The Alchemist",
+      author: "Paulo Coelho",
+      reads: "234K",
+      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop",
+      description: "A journey of self-discovery...",
+      duration: "4h 15m"
+    },
+    {
+      id: 6,
+      title: "Dune",
+      author: "Frank Herbert",
+      reads: "167K",
+      image: "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=400&h=300&fit=crop",
+      description: "The epic sci-fi masterpiece...",
+      duration: "21h 30m"
     }
   ];
 
@@ -114,6 +168,60 @@ const Home = () => {
       image: "https://images.unsplash.com/photo-1519791883288-dc8bd696e667?w=400&h=300&fit=crop",
       description: "A tale of gods and heroes...",
       trend: "+41%"
+    },
+    {
+      id: 1,
+      title: "The Midnight Library",
+      author: "Matt Haig",
+      reads: "125K",
+      image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=300&fit=crop",
+      description: "Between life and death there is a library...",
+      duration: "8h 30m"
+    },
+    {
+      id: 2,
+      title: "Where the Crawdads Sing",
+      author: "Delia Owens",
+      reads: "98.5K",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop",
+      description: "A mysterious murder in the marshes...",
+      duration: "12h 15m"
+    },
+    {
+      id: 3,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      reads: "87.2K",
+      image: "https://images.unsplash.com/photo-1506462945846-9d9d4c6a0d6f?w=400&h=300&fit=crop",
+      description: "A woman's act of violence and her silence...",
+      duration: "9h 45m"
+    },
+    {
+      id: 4,
+      title: "Atomic Habits",
+      author: "James Clear",
+      reads: "156K",
+      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=300&fit=crop",
+      description: "Tiny changes, remarkable results...",
+      duration: "5h 20m"
+    },
+    {
+      id: 5,
+      title: "The Alchemist",
+      author: "Paulo Coelho",
+      reads: "234K",
+      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop",
+      description: "A journey of self-discovery...",
+      duration: "4h 15m"
+    },
+    {
+      id: 6,
+      title: "Dune",
+      author: "Frank Herbert",
+      reads: "167K",
+      image: "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=400&h=300&fit=crop",
+      description: "The epic sci-fi masterpiece...",
+      duration: "21h 30m"
     }
   ];
 
@@ -162,6 +270,60 @@ const Home = () => {
       image: "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=400&h=300&fit=crop",
       description: "The goddess of magic speaks...",
       reads: "41K"
+    },
+    {
+      id: 1,
+      title: "The Midnight Library",
+      author: "Matt Haig",
+      reads: "125K",
+      image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=300&fit=crop",
+      description: "Between life and death there is a library...",
+      duration: "8h 30m"
+    },
+    {
+      id: 2,
+      title: "Where the Crawdads Sing",
+      author: "Delia Owens",
+      reads: "98.5K",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop",
+      description: "A mysterious murder in the marshes...",
+      duration: "12h 15m"
+    },
+    {
+      id: 3,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      reads: "87.2K",
+      image: "https://images.unsplash.com/photo-1506462945846-9d9d4c6a0d6f?w=400&h=300&fit=crop",
+      description: "A woman's act of violence and her silence...",
+      duration: "9h 45m"
+    },
+    {
+      id: 4,
+      title: "Atomic Habits",
+      author: "James Clear",
+      reads: "156K",
+      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=300&fit=crop",
+      description: "Tiny changes, remarkable results...",
+      duration: "5h 20m"
+    },
+    {
+      id: 5,
+      title: "The Alchemist",
+      author: "Paulo Coelho",
+      reads: "234K",
+      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop",
+      description: "A journey of self-discovery...",
+      duration: "4h 15m"
+    },
+    {
+      id: 6,
+      title: "Dune",
+      author: "Frank Herbert",
+      reads: "167K",
+      image: "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=400&h=300&fit=crop",
+      description: "The epic sci-fi masterpiece...",
+      duration: "21h 30m"
     }
   ];
 
@@ -210,6 +372,69 @@ const Home = () => {
       image: "https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=400&h=300&fit=crop",
       description: "Dragons, magic, and romance...",
       award: "🔥 Most Read"
+    },
+    {
+      id: 1,
+      title: "The Midnight Library",
+      author: "Matt Haig",
+      reads: "125K",
+      image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=300&fit=crop",
+      description: "Between life and death there is a library...",
+      duration: "8h 30m"
+    },
+    {
+      id: 2,
+      title: "Where the Crawdads Sing",
+      author: "Delia Owens",
+      reads: "98.5K",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop",
+      description: "A mysterious murder in the marshes...",
+      duration: "12h 15m"
+    },
+    {
+      id: 3,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      reads: "87.2K",
+      image: "https://images.unsplash.com/photo-1506462945846-9d9d4c6a0d6f?w=400&h=300&fit=crop",
+      description: "A woman's act of violence and her silence...",
+      duration: "9h 45m"
+    },
+    {
+      id: 4,
+      title: "Atomic Habits",
+      author: "James Clear",
+      reads: "156K",
+      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=300&fit=crop",
+      description: "Tiny changes, remarkable results...",
+      duration: "5h 20m"
+    },
+    {
+      id: 5,
+      title: "The Alchemist",
+      author: "Paulo Coelho",
+      reads: "234K",
+      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop",
+      description: "A journey of self-discovery...",
+      duration: "4h 15m"
+    },
+    {
+      id: 6,
+      title: "Dune",
+      author: "Frank Herbert",
+      reads: "167K",
+      image: "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=400&h=300&fit=crop",
+      description: "The epic sci-fi masterpiece...",
+      duration: "21h 30m"
+    },
+    {
+      id: 6,
+      title: "Dune",
+      author: "Frank Herbert",
+      reads: "167K",
+      image: "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=400&h=300&fit=crop",
+      description: "The epic sci-fi masterpiece...",
+      duration: "21h 30m"
     }
   ];
 

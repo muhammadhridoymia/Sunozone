@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import audio from '../AudioPlayer/auidos.mp3'; // Placeholder audio file
 import { FaPlay, FaPause, FaForward, FaBackward, FaHeart, FaShare, FaTimes } from 'react-icons/fa';
 import BottomNav from '../BottomNav/BottomNav';
 import './player.css';
@@ -197,7 +198,7 @@ Join Nora on her journey through the Midnight Library, where every book contains
     <>
       <div className="audio-player-container">
         {/* Audio Element */}
-        <audio ref={audioRef} src={currentStory.audioUrl} />
+        <audio ref={audioRef} src={audio ||currentStory.audioUrl} />
 
         {/* Read Text Modal */}
         {showReadText && (
@@ -269,13 +270,19 @@ Join Nora on her journey through the Midnight Library, where every book contains
           {/* Action Buttons */}
           <div className="action-buttons">
             <button className="action-btn read-text-btn" onClick={handleReadText}>
-              📖 Read Text
+              Read
             </button>
             <button className={`action-btn ${isLiked ? 'liked' : ''}`} onClick={handleLike}>
               <FaHeart /> {isLiked ? 'Liked' : 'Like'}
             </button>
             <button className="action-btn" onClick={handleShare}>
               <FaShare /> Share
+            </button>
+            <button className="action-btn" onClick={handleShare}>
+             Add to Playlist
+            </button>
+            <button className="action-btn" onClick={handleShare}>
+               Comment
             </button>
           </div>
         </div>
