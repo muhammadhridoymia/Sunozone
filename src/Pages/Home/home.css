@@ -78,6 +78,8 @@ body {
   transform: translateY(0);
 }
 
+
+
 /* Banner Styles */
 .banner {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -112,10 +114,50 @@ body {
   }
 }
 
-.banner:hover {
-  transform: translateY(-5px);
+/* Banner Styles - UPDATED */
+.banner {
+  position: relative;
+  width: 100%;
+  height: 220px;
+
+  /* Background Image */
+  background-image: url("https://images.unsplash.com/photo-1507842217343-583bb7270b66");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border-radius: 25px;
+  margin-bottom: 40px;
+  color: white;
+  cursor: pointer;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  padding: 40px;
+
+  transition: transform 0.3s ease;
 }
 
+/* Dark Overlay for readability */
+.banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  
+
+  z-index: 1;
+}
+
+/* Keep content above overlay */
+.banner-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+}
+
+/* Badge */
 .banner-badge {
   display: inline-block;
   background: rgba(255, 255, 255, 0.2);
@@ -126,26 +168,29 @@ body {
   backdrop-filter: blur(10px);
 }
 
+/* Title */
 .banner-content h2 {
-  font-size: 2.2rem;
-  margin-bottom: 15px;
+  font-size: 2rem;
+  margin-bottom: 10px;
   font-weight: bold;
 }
 
+/* Description */
 .banner-content p {
-  font-size: 1rem;
-  margin-bottom: 25px;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
   opacity: 0.95;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
+/* Button */
 .banner-btn {
-  padding: 12px 30px;
+  padding: 10px 25px;
   background: white;
   color: #667eea;
   border: none;
   border-radius: 30px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -156,6 +201,48 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+
+/* Hover effect */
+.banner:hover {
+  transform: translateY(-5px);
+}
+
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .banner {
+    height: 180px;
+    padding: 25px;
+  }
+
+  .banner-content h2 {
+    font-size: 1.4rem;
+  }
+
+  .banner-content p {
+    font-size: 0.85rem;
+  }
+}
+
+
+/* 💻 Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .banner {
+    height: 250px;
+  }
+}
+
+
+/* 🖥 Desktop */
+@media (min-width: 1025px) {
+  .banner {
+    height: 320px;
+  }
+
+  .banner-content h2 {
+    font-size: 2.4rem;
+  }
+}
 /* Stories Section */
 .stories-section {
   margin-bottom: 50px;
