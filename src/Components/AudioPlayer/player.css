@@ -196,13 +196,16 @@
 }
 
 .action-btn:hover {
-  background: #edf2f7;
   transform: translateY(-2px);
 }
 
 .action-btn.liked {
   background: #fed7d7;
   color: #e53e3e;
+}
+.audio-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
 }
 
 .read-text-btn {

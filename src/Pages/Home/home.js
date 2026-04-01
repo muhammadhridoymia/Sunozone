@@ -104,7 +104,7 @@ const Home = () => {
               ‹
             </button>
             <div className="stories-horizontal" ref={topStoriesRef}>
-              {loading?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
+              {loading || !TopStories || TopStories.length === 0 ?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
                 :TopStories.map((story) => (
                   <div
                     key={story._id}
@@ -120,21 +120,20 @@ const Home = () => {
                     <div className="story-overlay">
                       <span className="listen-badge">
                         🎧{" "}
-                        {story.audio?.bangla?.length ||
-                          story.audio?.english?.length ||
-                          "0:00"}
+                        {story.duration ||"0:00"}m
                       </span>
                     </div>
                   </div>
                   <div className="story-info">
                     <h3>{story.title}</h3>
                     <p className="author">
-                      {story.writer?.name || "Unknown Author"}
+                      Writer {story.writer || "Unknown Author"}
                     </p>
                     <div className="story-meta">
                       <span className="reads">
                       {story.stats?.views || 0} views
                       </span>
+                      <span className="reads">{story.stats?.likes || 0} likes</span>
                     </div>
                   </div>
                 </div>
@@ -171,7 +170,7 @@ const Home = () => {
               ‹
             </button>
             <div className="stories-horizontal" ref={weekStoriesRef}>
-              {loading?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
+              {loading || !TopStories || TopStories.length === 0 ?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
                 :TopStories.map((story) => (
                   <div
                     key={story._id}
@@ -187,20 +186,21 @@ const Home = () => {
                     <div className="story-overlay">
                       <span className="listen-badge">
                         🎧{" "}
-                        {story.audio?.bangla?.length ||
-                          story.audio?.english?.length ||
-                          "0:00"}
+                        {story.duration ||"0:00"}m
                       </span>
                     </div>
                   </div>
                   <div className="story-info">
                     <h3>{story.title}</h3>
                     <p className="author">
-                      {story.writer?.name || "Unknown Author"}
+                      {story.writer || "Unknown Author"}
                     </p>
                     <div className="story-meta">
                       <span className="reads">
                       {story.stats?.views || 0} views
+                      </span>
+                      <span className="reads">
+                        {story.stats?.likes || 0} likes
                       </span>
                     </div>
                   </div>
@@ -238,7 +238,7 @@ const Home = () => {
               ‹
             </button>
             <div className="stories-horizontal" ref={monthStoriesRef}>
-              {loading?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
+              {loading || !TopStories || TopStories.length === 0?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
                 :TopStories.map((story) => (
                   <div
                     key={story._id}
@@ -254,21 +254,22 @@ const Home = () => {
                     <div className="story-overlay">
                       <span className="listen-badge">
                         🎧{" "}
-                        {story.audio?.bangla?.length ||
-                          story.audio?.english?.length ||
-                          "0:00"}
+                        {story.duration ||"0:00"}m
                       </span>
                     </div>
                   </div>
                   <div className="story-info">
                     <h3>{story.title}</h3>
                     <p className="author">
-                      {story.writer?.name || "Unknown Author"}
+                      {story.writer || "Unknown Author"}
                     </p>
                     <div className="story-meta">
-                      <span className="reads">
-                      {story.stats?.views || 0} views
-                      </span>
+                        <span className="reads">
+                        {story.stats?.views || 0} views
+                        </span>
+                        <span className="reads">
+                          {story.stats?.likes || 0} likes
+                        </span>
                     </div>
                   </div>
                 </div>
@@ -305,7 +306,7 @@ const Home = () => {
               ‹
             </button>
             <div className="stories-horizontal" ref={yearStoriesRef}>
-              {loading?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
+              {loading || !TopStories || TopStories.length === 0 ?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
                 :TopStories.map((story) => (
                   <div
                     key={story._id}
@@ -321,20 +322,21 @@ const Home = () => {
                     <div className="story-overlay">
                       <span className="listen-badge">
                         🎧{" "}
-                        {story.audio?.bangla?.length ||
-                          story.audio?.english?.length ||
-                          "0:00"}
+                        {story.duration ||"0:00"}m
                       </span>
                     </div>
                   </div>
                   <div className="story-info">
                     <h3>{story.title}</h3>
                     <p className="author">
-                      {story.writer?.name || "Unknown Author"}
+                      {story.writer || "Unknown Author"}
                     </p>
                     <div className="story-meta">
                       <span className="reads">
                       {story.stats?.views || 0} views
+                      </span>
+                      <span className="reads">
+                        {story.stats?.likes || 0} likes
                       </span>
                     </div>
                   </div>

@@ -8,7 +8,7 @@ const BottomNav = () => {
   const location = useLocation();
 
   const navItems = [
-    { id: 'home', label: 'Home', icon: FaHome, path: '/home' },
+    { id: 'home', label: 'Home', icon: FaHome, path: '/' },
     { id: 'mylist', label: 'My List', icon: FaBookmark, path: '/mylist' },
     { id: 'profile', label: 'Profile', icon: FaUser, path: '/profile' }
   ];
