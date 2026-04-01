@@ -11,9 +11,9 @@ import {
 import BottomNav from "../BottomNav/BottomNav";
 import { useApi } from "../../Context/apiContext";
 import { SkeletonCard } from "../../LoadingUI/Skeleton/SkeletonCard";
-import audio from "../AudioPlayer/audio.mp3";
 import ReadingPopup from "../POpup/ReadingPopup";
 import { fetchStoryAudio } from "../../Api/StoriesAudio";
+import { fetchStoryText } from "../../Api/StoriesText";
 import "./player.css";
 
 
@@ -55,6 +55,28 @@ const AudioPlayer = () => {
       loadAudio();
     }
   }, [currentStory, fetchStoryAudio]);
+
+
+  //Text fetching and state management for Read Text feature
+  const [storyText, setStoryText] = useState("");
+
+  const loadStoryText = async () => {
+    const textData = await fetchStoryText(currentStory._id);
+    console.log("Fetched text data111:", textData);
+    if (textData) {
+      setStoryText(textData);
+    } else {
+      console.error("Failed to load text for story:", currentStory.title);
+    }
+  };
+
+  const handleReadText = () => {
+    if(storyText===""){
+      loadStoryText();
+    }
+    setShowReadText(true);
+  }
+
 
   // Related stories will replace this with actual logic to fetch related stories based on currentStory
   const relatedStories = TopStories;
@@ -127,11 +149,6 @@ const AudioPlayer = () => {
       );
     }
   };
-
-  const handleReadText = () => {
-    setShowReadText(true);
-  };
-
   const audioChangeControl = (lang) => {
     if (lang === "bangla") {
       setIsBangla(true);
@@ -159,6 +176,7 @@ const AudioPlayer = () => {
   };
 
   const handleStoryClick = (story) => {
+    setStoryText("")
     setCurrentStory(story);
     setCurrentTime(0);
     setIsPlaying(false);
@@ -175,7 +193,7 @@ const AudioPlayer = () => {
         <audio ref={audioRef} src={selectedAudio} />
 
         {/* Read Text Modal */}
-        {showReadText && <ReadingPopup close={()=>setShowReadText(false)} />}
+        {showReadText && <ReadingPopup text={storyText}  onClose={() => setShowReadText(false)}/>}
 
         {/* Main Content */}
         <div className="player-main">

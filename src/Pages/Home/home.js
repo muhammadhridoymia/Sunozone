@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../Components/BottomNav/BottomNav";
 import { useApi } from "../../Context/apiContext";
@@ -6,6 +6,24 @@ import { SkeletonCard } from "../../LoadingUI/Skeleton/SkeletonCard";
 import "./home.css";
 
 const Home = () => {
+
+  useEffect(() => {
+  const handleScroll = () => {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const pageHeight = document.body.offsetHeight;
+
+    // when user reaches near bottom
+    if (scrollPosition >= pageHeight - 200) {
+      console.log("User reached near bottom, load more stories...");
+      // Here you can trigger loading more stories, e.g. by updating state or calling an API
+      alert("You've reached the end of the page! More stories will be loaded soon.");
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
   const { TopStories,loading} = useApi();
   const navigate = useNavigate();
   // Refs for scrollable containers
