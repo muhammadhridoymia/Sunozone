@@ -1,4 +1,4 @@
-import React, { useRef ,useEffect} from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../Components/BottomNav/BottomNav";
 import { useApi } from "../../Context/apiContext";
@@ -7,24 +7,79 @@ import "./home.css";
 
 const Home = () => {
 
+  const [callWeekly, setCallWeekly] = useState(false);
+  const [callMonthly, setCallMonthly] = useState(false);
+  const [callYearly, setCallYearly] = useState(false);
+  //Context State and API calls
+  const { TopStories, loading, fetchStories, weeklyTopStories, monthlyTopStories, yearlyTopStories,setWeeklyTopStories, setMonthlyTopStories, setYearlyTopStories } = useApi();
+
+  // Fetch weekly stories 
   useEffect(() => {
-  const handleScroll = () => {
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const pageHeight = document.body.offsetHeight;
-
-    // when user reaches near bottom
-    if (scrollPosition >= pageHeight - 200) {
-      console.log("User reached near bottom, load more stories...");
-      // Here you can trigger loading more stories, e.g. by updating state or calling an API
-      alert("You've reached the end of the page! More stories will be loaded soon.");
+    if (callWeekly && weeklyTopStories.length === 0) {
+      fetchStories("week", setWeeklyTopStories);
     }
-  };
+  }, [callWeekly]);
 
-  window.addEventListener("scroll", handleScroll);
+  // Fetch monthly stories
+  useEffect(() => {
+    if (callMonthly && monthlyTopStories.length === 0) {
+      fetchStories("month", setMonthlyTopStories);
+    }
+  }, [callMonthly]);
 
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
-  const { TopStories,loading} = useApi();
+  // Fetch yearly stories
+  useEffect(() => {
+    if (callYearly && yearlyTopStories.length === 0) {
+      fetchStories("year", setYearlyTopStories);
+    }
+  }, [callYearly]);
+
+  const weeklyCalledRef = useRef(false);
+  const monthlyCalledRef = useRef(false);
+  const yearlyCalledRef = useRef(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const pageHeight = document.body.offsetHeight;
+
+      // when user reaches near bottom
+      if (
+        scrollPosition >= pageHeight - 700 &&
+        !weeklyCalledRef.current &&
+        weeklyTopStories.length === 0
+      ) {
+        setCallWeekly(true);
+        console.log("User scrolled near bottom, setCallWeekly triggered");
+        weeklyCalledRef.current = true;
+      }
+
+      if (
+        scrollPosition >= pageHeight - 500 &&
+        !monthlyCalledRef.current &&
+        monthlyTopStories.length === 0
+      ) {
+        setCallMonthly(true);
+        console.log("User scrolled near bottom, setCallMonthly triggered");
+        monthlyCalledRef.current = true;
+      }
+
+      if (
+        scrollPosition >= pageHeight - 100 &&
+        !yearlyCalledRef.current &&
+        yearlyTopStories.length === 0
+      ) {
+        setCallYearly(true);
+        console.log("User scrolled near bottom, setCallYearly triggered");
+        yearlyCalledRef.current = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const navigate = useNavigate();
   // Refs for scrollable containers
   const topStoriesRef = useRef(null);
@@ -122,40 +177,44 @@ const Home = () => {
               ‹
             </button>
             <div className="stories-horizontal" ref={topStoriesRef}>
-              {loading || !TopStories || TopStories.length === 0 ?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
-                :TopStories.map((story) => (
-                  <div
-                    key={story._id}
-                    className="story-card-horizontal"
-                    onClick={() => handleStoryClick(story)}
-                  >
-                  <div className="story-image-wrapper">
-                    <img
-                      src={story.imageUrl}
-                      alt={story.title}
-                      className="story-image"
-                    />
-                    <div className="story-overlay">
-                      <span className="listen-badge">
-                        🎧{" "}
-                        {story.duration ||"0:00"}m
-                      </span>
+              {loading || !TopStories || TopStories.length === 0
+                ? Array(9)
+                    .fill()
+                    .map((_, i) => <SkeletonCard key={i} />)
+                : TopStories.map((story) => (
+                    <div
+                      key={story._id}
+                      className="story-card-horizontal"
+                      onClick={() => handleStoryClick(story)}
+                    >
+                      <div className="story-image-wrapper">
+                        <img
+                          src={story.imageUrl}
+                          alt={story.title}
+                          className="story-image"
+                        />
+                        <div className="story-overlay">
+                          <span className="listen-badge">
+                            🎧 {story.duration || "0:00"}m
+                          </span>
+                        </div>
+                      </div>
+                      <div className="story-info">
+                        <h3>{story.title}</h3>
+                        <p className="author">
+                          Writer {story.writer || "Unknown Author"}
+                        </p>
+                        <div className="story-meta">
+                          <span className="reads">
+                            {story.stats?.views || 0} views
+                          </span>
+                          <span className="reads">
+                            {story.stats?.likes || 0} likes
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="story-info">
-                    <h3>{story.title}</h3>
-                    <p className="author">
-                      Writer {story.writer || "Unknown Author"}
-                    </p>
-                    <div className="story-meta">
-                      <span className="reads">
-                      {story.stats?.views || 0} views
-                      </span>
-                      <span className="reads">{story.stats?.likes || 0} likes</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  ))}
             </div>
             <button
               className="scroll-btn right"
@@ -188,42 +247,44 @@ const Home = () => {
               ‹
             </button>
             <div className="stories-horizontal" ref={weekStoriesRef}>
-              {loading || !TopStories || TopStories.length === 0 ?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
-                :TopStories.map((story) => (
-                  <div
-                    key={story._id}
-                    className="story-card-horizontal"
-                    onClick={() => handleStoryClick(story)}
-                  >
-                  <div className="story-image-wrapper">
-                    <img
-                      src={story.imageUrl}
-                      alt={story.title}
-                      className="story-image"
-                    />
-                    <div className="story-overlay">
-                      <span className="listen-badge">
-                        🎧{" "}
-                        {story.duration ||"0:00"}m
-                      </span>
+              {loading || !weeklyTopStories || weeklyTopStories.length === 0
+                ? Array(9)
+                    .fill()
+                    .map((_, i) => <SkeletonCard key={i} />)
+                : weeklyTopStories?.map((story) => (
+                    <div
+                      key={story._id}
+                      className="story-card-horizontal"
+                      onClick={() => handleStoryClick(story)}
+                    >
+                      <div className="story-image-wrapper">
+                        <img
+                          src={story.imageUrl}
+                          alt={story.title}
+                          className="story-image"
+                        />
+                        <div className="story-overlay">
+                          <span className="listen-badge">
+                            🎧 {story.duration || "0:00"}m
+                          </span>
+                        </div>
+                      </div>
+                      <div className="story-info">
+                        <h3>{story.title}</h3>
+                        <p className="author">
+                          {story.writer || "Unknown Author"}
+                        </p>
+                        <div className="story-meta">
+                          <span className="reads">
+                            {story.stats?.views || 0} views
+                          </span>
+                          <span className="reads">
+                            {story.stats?.likes || 0} likes
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="story-info">
-                    <h3>{story.title}</h3>
-                    <p className="author">
-                      {story.writer || "Unknown Author"}
-                    </p>
-                    <div className="story-meta">
-                      <span className="reads">
-                      {story.stats?.views || 0} views
-                      </span>
-                      <span className="reads">
-                        {story.stats?.likes || 0} likes
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  ))}
             </div>
             <button
               className="scroll-btn right"
@@ -256,42 +317,44 @@ const Home = () => {
               ‹
             </button>
             <div className="stories-horizontal" ref={monthStoriesRef}>
-              {loading || !TopStories || TopStories.length === 0?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
-                :TopStories.map((story) => (
-                  <div
-                    key={story._id}
-                    className="story-card-horizontal"
-                    onClick={() => handleStoryClick(story)}
-                  >
-                  <div className="story-image-wrapper">
-                    <img
-                      src={story.imageUrl}
-                      alt={story.title}
-                      className="story-image"
-                    />
-                    <div className="story-overlay">
-                      <span className="listen-badge">
-                        🎧{" "}
-                        {story.duration ||"0:00"}m
-                      </span>
+              {loading || !monthlyTopStories || monthlyTopStories.length === 0
+                ? Array(9)
+                    .fill()
+                    .map((_, i) => <SkeletonCard key={i} />)
+                : monthlyTopStories.map((story) => (
+                    <div
+                      key={story._id}
+                      className="story-card-horizontal"
+                      onClick={() => handleStoryClick(story)}
+                    >
+                      <div className="story-image-wrapper">
+                        <img
+                          src={story.imageUrl}
+                          alt={story.title}
+                          className="story-image"
+                        />
+                        <div className="story-overlay">
+                          <span className="listen-badge">
+                            🎧 {story.duration || "0:00"}m
+                          </span>
+                        </div>
+                      </div>
+                      <div className="story-info">
+                        <h3>{story.title}</h3>
+                        <p className="author">
+                          {story.writer || "Unknown Author"}
+                        </p>
+                        <div className="story-meta">
+                          <span className="reads">
+                            {story.stats?.views || 0} views
+                          </span>
+                          <span className="reads">
+                            {story.stats?.likes || 0} likes
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="story-info">
-                    <h3>{story.title}</h3>
-                    <p className="author">
-                      {story.writer || "Unknown Author"}
-                    </p>
-                    <div className="story-meta">
-                        <span className="reads">
-                        {story.stats?.views || 0} views
-                        </span>
-                        <span className="reads">
-                          {story.stats?.likes || 0} likes
-                        </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  ))}
             </div>
             <button
               className="scroll-btn right"
@@ -324,42 +387,44 @@ const Home = () => {
               ‹
             </button>
             <div className="stories-horizontal" ref={yearStoriesRef}>
-              {loading || !TopStories || TopStories.length === 0 ?Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
-                :TopStories.map((story) => (
-                  <div
-                    key={story._id}
-                    className="story-card-horizontal"
-                    onClick={() => handleStoryClick(story)}
-                  >
-                  <div className="story-image-wrapper">
-                    <img
-                      src={story.imageUrl}
-                      alt={story.title}
-                      className="story-image"
-                    />
-                    <div className="story-overlay">
-                      <span className="listen-badge">
-                        🎧{" "}
-                        {story.duration ||"0:00"}m
-                      </span>
+              {loading || !yearlyTopStories || yearlyTopStories.length === 0
+                ? Array(9)
+                    .fill()
+                    .map((_, i) => <SkeletonCard key={i} />)
+                : yearlyTopStories.map((story) => (
+                    <div
+                      key={story._id}
+                      className="story-card-horizontal"
+                      onClick={() => handleStoryClick(story)}
+                    >
+                      <div className="story-image-wrapper">
+                        <img
+                          src={story.imageUrl}
+                          alt={story.title}
+                          className="story-image"
+                        />
+                        <div className="story-overlay">
+                          <span className="listen-badge">
+                            🎧 {story.duration || "0:00"}m
+                          </span>
+                        </div>
+                      </div>
+                      <div className="story-info">
+                        <h3>{story.title}</h3>
+                        <p className="author">
+                          {story.writer || "Unknown Author"}
+                        </p>
+                        <div className="story-meta">
+                          <span className="reads">
+                            {story.stats?.views || 0} views
+                          </span>
+                          <span className="reads">
+                            {story.stats?.likes || 0} likes
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="story-info">
-                    <h3>{story.title}</h3>
-                    <p className="author">
-                      {story.writer || "Unknown Author"}
-                    </p>
-                    <div className="story-meta">
-                      <span className="reads">
-                      {story.stats?.views || 0} views
-                      </span>
-                      <span className="reads">
-                        {story.stats?.likes || 0} likes
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  ))}
             </div>
             <button
               className="scroll-btn right"

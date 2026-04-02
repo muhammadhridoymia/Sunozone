@@ -9,13 +9,35 @@ export const ApiProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log("ApiProvider rendered, TopStories:", TopStories);
+
+    const [weeklyTopStories, setWeeklyTopStories] = useState([]);
+    const [monthlyTopStories, setMonthlyTopStories] = useState([]);
+    const [yearlyTopStories, setYearlyTopStories] = useState([]);
+
+  const fetchStories = async (period, setter) => {
+    try {
+      const response = await TopStoriesApi(period);
+
+      // normalize data (VERY IMPORTANT)
+      if (response?.data && Array.isArray(response.data)) {
+        setter(response.data);
+      } else if (Array.isArray(response)) {
+        setter(response);
+      } else {
+        setter([]);
+      }
+
+      console.log(`${period} stories:`, response);
+    } catch (err) {
+      console.error(`Error fetching ${period} stories:`, err);
+    }
+  };
 
   useEffect(() => {
     const fetchTopStories = async () => {
       try {
         setLoading(true);
-        const response = await TopStoriesApi();
+        const response = await TopStoriesApi("allTime");
         console.log("API Response:", response);
 
         // Handle different response structures
@@ -37,29 +59,17 @@ export const ApiProvider = ({ children }) => {
     fetchTopStories();
   }, []);
 
-  const fetchStoryAudio = async (storyId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/api/story/audio/${storyId}`,
-      );
-      const data = await response.json();
-
-      if (data.success) {
-        return data.data; // contains audio URLs, title, writer, etc.
-      } else {
-        console.error(data.message);
-        return null;
-      }
-    } catch (error) {
-      console.error("Error fetching story audio:", error);
-      return null;
-    }
-  };
-
   const value = {
     TopStories,
     loading,
     error,
+    fetchStories,
+    weeklyTopStories,
+    monthlyTopStories,
+    yearlyTopStories,
+    setWeeklyTopStories,
+    setMonthlyTopStories,
+    setYearlyTopStories,
   };
 
   return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
