@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import BottomNav from "../BottomNav/BottomNav";
 import { useApi } from "../../Context/apiContext";
-import { SkeletonCard } from "../../LoadingUI/Skeleton/SkeletonCard";
+import { SkeletonCard } from "../../LoadingUI/playerSkeleton/skeleton";
 import ReadingPopup from "../POpup/ReadingPopup";
 import { fetchStoryAudio } from "../../Api/StoriesAudio";
 import { fetchStoryText } from "../../Api/StoriesText";
