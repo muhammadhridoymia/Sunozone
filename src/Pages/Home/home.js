@@ -88,9 +88,7 @@ const Home = () => {
   const yearStoriesRef = useRef(null);
 
   const handleSearchClick = () => {
-    alert(
-      "🔍 Search feature coming soon! Discover thousands of amazing stories.",
-    );
+    navigate("/search");
   };
 
   const handleStoryClick = (story) => {

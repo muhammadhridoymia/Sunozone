@@ -5,6 +5,7 @@ import Profile from './Pages/Profile/profile';
 import MyList from './Pages/MyList/mylist';
 import AudioPlayer from './Components/AudioPlayer/player';
 import { ApiProvider } from './Context/apiContext';
+import SearchPage from './Pages/Search/Search';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/mylist" element={<MyList />} />
             <Route path="/player" element={<AudioPlayer />} />
+            <Route path="/search" element={<SearchPage />} />
           </Routes>
         </div>
       </ApiProvider>
