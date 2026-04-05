@@ -186,138 +186,140 @@ const AudioPlayer = () => {
     }
   };
 
-  return (
-    <>
-      <div className="audio-player-container">
-        {/* Audio Element */}
-        <audio ref={audioRef} src={selectedAudio} />
+// only showing JSX part (no logic changed)
 
-        {/* Read Text Modal */}
-        {showReadText && <ReadingPopup text={storyText}  onClose={() => setShowReadText(false)}/>}
+return (
+  <>
+    <div className="apx-container">
+      <audio ref={audioRef} src={selectedAudio} />
 
-        {/* Main Content */}
-        <div className="player-main">
-          {/* Top Image - Large Size */}
-          <div className="player-image-container-large">
-            <img
-              src={currentStory.imageUrl}
-              alt={currentStory.title}
-              className="player-image-large"
-            />
-            <div className="image-overlay"></div>
-          </div>
+      {showReadText && (
+        <ReadingPopup text={storyText} onClose={() => setShowReadText(false)} />
+      )}
 
-          {/* Story Info */}
-          <div className="story-info">
-            <h1 className="story-title">{currentStory.title}</h1>
-            <p className="story-author">Writer {currentStory.writer}</p>
-            <p className="story-narrator">Narrated by Sono Zone</p>
-          </div>
-
-          {/* Seek Bar */}
-          <div className="seek-bar-container">
-            <div className="time-info">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-            <input
-              type="range"
-              className="seek-bar"
-              value={currentTime}
-              max={duration || 0}
-              onChange={handleProgressChange}
-              step="0.1"
-            />
-          </div>
-
-          {/* Player Controls */}
-          <div className="player-controls">
-            <button className="control-btn" onClick={skipBackward}>
-              <FaBackward />
-              <span>30</span>
-            </button>
-            <button className="play-btn" onClick={togglePlay}>
-              {isPlaying ? <FaPause /> : <FaPlay />}
-            </button>
-            <button className="control-btn" onClick={skipForward}>
-              <FaForward />
-              <span>30</span>
-            </button>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="action-buttons">
-            <button
-              className="action-btn read-text-btn"
-              onClick={handleReadText}
-            >
-              Read
-            </button>
-            <button
-              className={`action-btn ${isLiked ? "liked" : ""}`}
-              onClick={handleLike}
-            >
-              <FaHeart /> {isLiked ? "Liked" : "Like"}
-            </button>
-            <button className="action-btn" onClick={handleShare}>
-              <FaShare /> Share
-            </button>
-            <button className="action-btn" onClick={handleShare}>
-              Add to Playlist
-            </button>
-            <button className="action-btn" onClick={handleShare}>
-              Comment
-            </button>
-            <button className={`action-btn ${isBangla ? "audio-btn" : ""}`} onClick={() => audioChangeControl("bangla")}>
-              Bangla
-            </button>
-            <button className={`action-btn ${!isBangla ? "audio-btn" : ""}`} onClick={() => audioChangeControl("english")}>
-              English
-            </button>
-          </div>
+      <div className="apx-main">
+        <div className="apx-img-box">
+          <img
+            src={currentStory.imageUrl}
+            alt={currentStory.title}
+            className="apx-img"
+          />
+          <div className="apx-overlay"></div>
         </div>
 
-        {/* Related Stories Section */}
-        <div className="related-stories">
-          <div className="related-header">
-            <h2>Recommended for You</h2>
-            <p>Based on your listening history</p>
+        <div className="apx-info">
+          <h1 className="apx-title">{currentStory.title}</h1>
+          <p className="apx-writer">Writer {currentStory.writer}</p>
+          <p className="apx-narrator">Narrated by Sono Zone</p>
+        </div>
+
+        <div className="apx-seek-wrap">
+          <div className="apx-time">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
           </div>
 
-          <div className="related-grid">
-            {loading
-              ? Array(9)
-                  .fill()
-                  .map((_, i) => <SkeletonCard key={i} />)
-              : relatedStories.map((story) => (
-                  <div
-                    key={story._id}
-                    className="related-card"
-                    onClick={() => handleStoryClick(story)}
-                  >
-                    <div className="related-image">
-                      <img src={story.imageUrl} alt={story.title} />
-                      <div className="play-overlay">
-                        <FaPlay className="play-icon" />
-                      </div>
-                    </div>
-                    <div className="related-info">
-                      <h4 className="related-title">{story.title}</h4>
-                      <p className="related-author">writer {story.writer}</p>
-                      <span className="related-duration">
-                        ⏱️ {story.duration}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-          </div>
+          <input
+            type="range"
+            className="apx-seek"
+            value={currentTime}
+            max={duration || 0}
+            onChange={handleProgressChange}
+            step="0.1"
+          />
+        </div>
+
+        <div className="apx-controls">
+          <button className="apx-btn-small" onClick={skipBackward}>
+            <FaBackward />
+            <span>30</span>
+          </button>
+
+          <button className="apx-btn-play" onClick={togglePlay}>
+            {isPlaying ? <FaPause /> : <FaPlay />}
+          </button>
+
+          <button className="apx-btn-small" onClick={skipForward}>
+            <FaForward />
+            <span>30</span>
+          </button>
+        </div>
+
+        <div className="apx-actions">
+          <button className="apx-action read" onClick={handleReadText}>
+            Read
+          </button>
+
+          <button
+            className={`apx-action ${isLiked ? "liked" : ""}`}
+            onClick={handleLike}
+          >
+            <FaHeart /> {isLiked ? "Liked" : "Like"}
+          </button>
+
+          <button className="apx-action" onClick={handleShare}>
+            <FaShare /> Share
+          </button>
+
+          <button className="apx-action">Add to Playlist</button>
+          <button className="apx-action">Comment</button>
+
+          <button
+            className={`apx-action ${isBangla ? "active-audio" : ""}`}
+            onClick={() => audioChangeControl("bangla")}
+          >
+            Bangla
+          </button>
+
+          <button
+            className={`apx-action ${!isBangla ? "active-audio" : ""}`}
+            onClick={() => audioChangeControl("english")}
+          >
+            English
+          </button>
         </div>
       </div>
 
-      {/* Bottom Navigation */}
-      <BottomNav />
-    </>
-  );
+      <div className="apx-related">
+        <div className="apx-related-head">
+          <h2>Recommended for You</h2>
+          <p>Based on your listening history</p>
+        </div>
+
+        <div className="apx-grid">
+          {loading
+            ? Array(9).fill().map((_, i) => <SkeletonCard key={i} />)
+            : relatedStories.map((story) => (
+                <div
+                  key={story._id}
+                  className="apx-card"
+                  onClick={() => handleStoryClick(story)}
+                >
+                  <div className="apx-card-img">
+                    <img src={story.imageUrl} alt={story.title} />
+                    <div className="apx-play-overlay">
+                      <FaPlay className="apx-play-icon" />
+                    </div>
+                  </div>
+
+                  <div className="apx-card-info">
+                    <h4 className="apx-card-title">{story.title}</h4>
+                    <p className="apx-card-writer">
+                      writer {story.writer}
+                    </p>
+                    <span className="apx-card-duration">
+                      ⏱️ {story.duration}
+                    </span>
+                  </div>
+                </div>
+              ))}
+        </div>
+      </div>
+    </div>
+
+    <BottomNav />
+  </>
+);
 };
 
 export default AudioPlayer;

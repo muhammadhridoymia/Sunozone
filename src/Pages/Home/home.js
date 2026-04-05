@@ -141,7 +141,7 @@ const Home = () => {
       {/* Main Content */}
       <div className="main-content">
         {/* Banner Section */}
-        <div className="banner" onClick={handleBannerClick}>
+        <div className="banner" onClick={handleSearchClick}>
           <div className="banner-content">
             <div className="banner-badge">✨ NEW</div>
             <h2>Discover Your Next Favorite Story</h2>

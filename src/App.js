@@ -5,7 +5,8 @@ import Profile from './Pages/Profile/profile';
 import MyList from './Pages/MyList/mylist';
 import AudioPlayer from './Components/AudioPlayer/player';
 import { ApiProvider } from './Context/apiContext';
-import SearchPage from './Pages/Search/Search';
+import SearchPage from './Pages/Search/Search';   
+import Lines from './Pages/Lines/Lines';
 import './App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/mylist" element={<MyList />} />
             <Route path="/player" element={<AudioPlayer />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/lines" element={<Lines />} />
           </Routes>
         </div>
       </ApiProvider>
