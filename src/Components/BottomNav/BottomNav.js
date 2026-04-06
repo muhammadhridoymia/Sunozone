@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FaHome, FaBookmark, FaUser ,FaList} from 'react-icons/fa';
+import { FaHome, FaBookmark, FaUser ,FaList,FaSearch} from 'react-icons/fa';
 import './BottomNav.css';
 
 const BottomNav = () => {
@@ -11,6 +11,7 @@ const BottomNav = () => {
     { id: 'home', label: 'Home', icon: FaHome, path: '/' },
     { id: 'mylist', label: 'My List', icon: FaBookmark, path: '/mylist' },
     { id: 'lines', label: 'Lines', icon: FaList, path: '/lines' },
+    { id: 'search', label: 'Search', icon: FaSearch, path: '/search' },
     { id: 'profile', label: 'Profile', icon: FaUser, path: '/profile' }
   ];
 
