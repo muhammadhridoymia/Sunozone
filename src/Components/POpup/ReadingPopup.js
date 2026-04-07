@@ -48,10 +48,10 @@ function ReadingPopup({ text, onClose }) {
             >
               {theme === "light" ? "📖" : "☀️"}
             </button>
-            <button className="control-btn" onClick={() => setIsBangla(true)}>
+            <button hidden={text?.text?.bangla === ""} className="control-btn" onClick={() => setIsBangla(true)}>
               Bangla
             </button>
-            <button className="control-btn" onClick={() => setIsBangla(false)}>
+            <button hidden={text?.text?.english === ""} className="control-btn" onClick={() => setIsBangla(false)}>
               English
             </button>
           </div>

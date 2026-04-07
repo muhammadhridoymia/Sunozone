@@ -1,6 +1,8 @@
 // Lines.js
 import React, { useState, useRef, useEffect } from 'react';
 import BottomNav from '../../Components/BottomNav/BottomNav';
+import { GetLinesApi } from '../../Api/LinesApi';
+
 import './Lines.css';
 
 const Lines = () => {
@@ -11,44 +13,21 @@ const Lines = () => {
   const isUserInteracted = useRef(false);
   const pausedIndex = useRef(null);
 
-  // Demo Data
-  const linesData = [
-    {
-      id: 1,
-      image: 'https://picsum.photos/id/1015/1080/1920',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-      title: 'The Last Sunset',
-      writer: 'Emily Rose',
-    },
-    {
-      id: 2,
-      image: 'https://picsum.photos/id/237/1080/1920',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
-      title: 'Whispers in the Rain',
-      writer: 'Michael Chen',
-    },
-    {
-      id: 3,
-      image: 'https://picsum.photos/id/201/1080/1920',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
-      title: 'Silent Mountains',
-      writer: 'Sarah Khan',
-    },
-    {
-      id: 4,
-      image: 'https://picsum.photos/id/133/1080/1920',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
-      title: 'City Lights',
-      writer: 'Ahmed Hassan',
-    },
-    {
-      id: 5,
-      image: 'https://picsum.photos/id/180/1080/1920',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
-      title: 'Ocean Dreams',
-      writer: 'Priya Sharma',
-    },
-  ];
+  const [linesData, setLinesData] = useState([]);
+
+  // Fetch lines data from API
+  useEffect(() => {
+    const fetchLines = async () => {
+      try {
+        const data = await GetLinesApi();
+        setLinesData(data);
+      } catch (error) {
+        console.error('Failed to fetch lines:', error);
+      }
+    };
+
+    fetchLines();
+  }, []);
 
   // Auto-play logic with Intersection Observer
   useEffect(() => {
@@ -111,15 +90,15 @@ const Lines = () => {
   return (
     <div className="lines-page">
       <div className="lines-wrapper">
-        {linesData.map((line, index) => (
+        {linesData?.map((line, index) => (
           <div
-            key={line.id}
+            key={line._id}
             className="line-card"
             data-index={index}
           >
             {/* Background Image - Click to toggle audio */}
             <img
-              src={line.image}
+              src={line.imageUrl}
               alt={line.title}
               className="line-image"
               onClick={() => handleImageClick(index)}
@@ -163,8 +142,8 @@ const Lines = () => {
             {/* Action Buttons */}
             <div className="bottom-info">
               <div className="action-buttons">
-                <button className="action-btn">❤️</button>
-                <button className="action-btn">💬</button>
+                <button className="action-btn">❤️ <small>{line.likes || 0}</small></button>
+                <button className="action-btn">💬 <small>{line.comments || 0}</small></button>
                 <button className="action-btn">↗️</button>
               </div>
             </div>

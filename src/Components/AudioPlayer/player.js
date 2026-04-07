@@ -61,7 +61,7 @@ const AudioPlayer = () => {
   const [storyText, setStoryText] = useState("");
 
   const loadStoryText = async () => {
-    const textData = await fetchStoryText(currentStory._id);
+    const textData = await fetchStoryText(currentStory._id,"text");
     console.log("Fetched text data111:", textData);
     if (textData) {
       setStoryText(textData);
@@ -267,6 +267,7 @@ return (
           <button
             className={`apx-action ${isBangla ? "active-audio" : ""}`}
             onClick={() => audioChangeControl("bangla")}
+            hidden={banglaAudio === ""}
           >
             Bangla
           </button>
@@ -274,6 +275,7 @@ return (
           <button
             className={`apx-action ${!isBangla ? "active-audio" : ""}`}
             onClick={() => audioChangeControl("english")}
+            hidden={englishAudio === ""}
           >
             English
           </button>

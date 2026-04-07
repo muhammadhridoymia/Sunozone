@@ -99,10 +99,6 @@ const Home = () => {
     alert(`✨ See all ${category} stories - Discover more amazing tales!`);
   };
 
-  const handleBannerClick = () => {
-    alert("🎉 Welcome to StoryTime! Start your reading adventure today.");
-  };
-
   const scrollLeft = (ref) => {
     if (ref.current) {
       ref.current.scrollBy({ left: -300, behavior: "smooth" });

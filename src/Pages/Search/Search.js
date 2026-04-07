@@ -1,84 +1,27 @@
 // SearchPage.js
-import React, { useState } from 'react';
+import React, {  useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BottomNav from '../../Components/BottomNav/BottomNav';
+import { SearchApi } from '../../Api/SearchStoryApi';
 import './Search.css';
 
 const SearchPage = () => {
-  // Sample story data
-  const [allStories] = useState([
-    {
-      _id: '1',
-      title: 'The Last Letter',
-      imageUrl: 'https://picsum.photos/id/20/300/200',
-      duration: '12',
-      status: 'Completed',
-      writer: 'Emily Hart',
-      category: 'love story'
-    },
-    {
-      _id: '2',
-      title: 'Echoes of the Past',
-      imageUrl: 'https://picsum.photos/id/22/300/200',
-      duration: '8',
-      status: 'Ongoing',
-      writer: 'Michael Chen',
-      category: 'sad'
-    },
-    {
-      _id: '3',
-      title: 'Steve Jobs: The Visionary',
-      imageUrl: 'https://picsum.photos/id/0/300/200',
-      duration: '15',
-      status: 'Completed',
-      writer: 'Walter Isaacson',
-      category: 'famaus people'
-    },
-    {
-      _id: '4',
-      title: 'The Midnight Library',
-      imageUrl: 'https://picsum.photos/id/24/300/200',
-      duration: '10',
-      status: 'Completed',
-      writer: 'Matt Haig',
-      category: 'noval'
-    },
-    {
-      _id: '5',
-      title: 'When We Collided',
-      imageUrl: 'https://picsum.photos/id/26/300/200',
-      duration: '9',
-      status: 'Completed',
-      writer: 'Emery Lord',
-      category: 'love story'
-    },
-    {
-      _id: '6',
-      title: 'A Grief Observed',
-      imageUrl: 'https://picsum.photos/id/29/300/200',
-      duration: '6',
-      status: 'Completed',
-      writer: 'C.S. Lewis',
-      category: 'sad'
-    },
-    {
-      _id: '7',
-      title: 'Einstein: His Life',
-      imageUrl: 'https://picsum.photos/id/1/300/200',
-      duration: '14',
-      status: 'Ongoing',
-      writer: 'Walter Isaacson',
-      category: 'famaus people'
-    },
-    {
-      _id: '8',
-      title: 'The Silent Patient',
-      imageUrl: 'https://picsum.photos/id/28/300/200',
-      duration: '11',
-      status: 'Completed',
-      writer: 'Alex Michaelides',
-      category: 'noval'
-    }
-  ]);
+  const navigate = useNavigate();
+
+  // Most Searched Stories State 
+  const [mostSearched, setMostSearched] = useState([]);
+  useEffect(() => {
+    const fetchMostSearched = async () => {
+      try {
+        const data = await SearchApi();
+        setMostSearched(data);
+      } catch (error) {
+        console.error('Failed to fetch most searched stories:', error);
+      }
+    };
+
+    fetchMostSearched();
+  }, []);
 
   const categories = [
     { id: 'all', name: 'All Stories', key: 'all' },
@@ -88,16 +31,10 @@ const SearchPage = () => {
     { id: 'novel', name: 'Novel', key: 'noval' }
   ];
 
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const handleStoryClick = (story) => {
+    navigate('/player', { state: { story } });
+  };
 
-  // Filter stories based on search query and selected category
-  const filteredStories = allStories.filter(story => {
-    const matchesSearch = story.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          story.writer.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || story.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
 
   return (
     <div className="search-page">
@@ -113,8 +50,6 @@ const SearchPage = () => {
             type="text"
             className="search-input"
             placeholder="Search stories by title or writer..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button className="search-button">
             <svg className="search-icon" viewBox="0 0 24 24" width="20" height="20">
@@ -133,9 +68,7 @@ const SearchPage = () => {
           {categories.map(category => (
             <button
               key={category.id}
-              className={`category-btn ${selectedCategory === category.key ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(category.key)}
-            >
+              className={`category-btn`}            >
               {category.name}
             </button>
           ))}
@@ -144,23 +77,21 @@ const SearchPage = () => {
 
       {/* Stories Grid */}
       <div className="stories-container">
-        {filteredStories.length > 0 ? (
-          <div className="stories-grid">
-            {filteredStories.map(story => (
-              <div key={story._id} className="story-card">
+        {mostSearched.length > 0 ? (
+          <div className="stories-grid"
+          >
+            {mostSearched.map(story => (
+              <div key={story._id} className="story-card" onClick={() => handleStoryClick(story)}>
                 <div className="story-image-wrapper">
                   <img src={story.imageUrl} alt={story.title} className="story-image" />
-                  <span className={`story-status ${story.status.toLowerCase()}`}>
-                    {story.status}
-                  </span>
                 </div>
                 <div className="story-content">
                   <h3 className="story-title">{story.title}</h3>
                   <div className="story-meta">
                     <span className="story-writer">writer {story.writer}</span>
                     <span className="story-duration">🎧{story.duration}m</span>
-                    <span className='story-view'>100 views</span>
-                    <span className='story-like'>50 likes</span>
+                    <span className='story-view'>{story.status.views || 0} views</span>
+                    <span className='story-like'>{story.status.likes || 0} likes</span>
                   </div>
                 </div>
               </div>
