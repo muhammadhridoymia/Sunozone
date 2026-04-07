@@ -61,7 +61,7 @@ const AudioPlayer = () => {
   const [storyText, setStoryText] = useState("");
 
   const loadStoryText = async () => {
-    const textData = await fetchStoryText(currentStory._id,"text");
+    const textData = await fetchStoryText(currentStory._id);
     console.log("Fetched text data111:", textData);
     if (textData) {
       setStoryText(textData);
