@@ -7,6 +7,7 @@ import AudioPlayer from './Components/AudioPlayer/player';
 import { ApiProvider } from './Context/apiContext';
 import SearchPage from './Pages/Search/Search';   
 import Lines from './Pages/Lines/Lines';
+import Login from './Register/Login';
 import './App.css';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/player" element={<AudioPlayer />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/lines" element={<Lines />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
       </ApiProvider>
