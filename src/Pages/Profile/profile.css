@@ -1,159 +1,341 @@
-/* Simple Profile Page */
-.profile-simple {
-  margin: 0 auto;
-  padding: 20px 20px 80px 20px;
+/* profile.css */
+
+/* Base Styles */
+.profile-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px 16px 80px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.profile-container {
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 /* Header */
-.profile-header-simple {
-  background: white;
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+.profile-header {
+  margin-bottom: 24px;
 }
 
-.profile-header-simple h1 {
-  font-size: 1.5rem;
-  color: #2d3748;
+.profile-header h1 {
+  color: white;
+  font-size: 28px;
+  font-weight: 600;
   margin: 0;
+  letter-spacing: -0.5px;
 }
 
-/* Profile Card */
-.profile-card-simple {
+/* Main Card */
+.profile-card {
   background: white;
-  border-radius: 25px;
-  padding: 40px 30px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
+}
+
+/* Avatar Section */
+.avatar-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 0 30px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Profile Image */
-.profile-image-container {
-  margin-bottom: 20px;
+.avatar-wrapper {
+  display: inline-block;
+  border-radius: 50%;
+  background: white;
+  padding: 4px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-.profile-image-simple {
-  width: 150px;
-  height: 150px;
+.profile-avatar {
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  border: 5px solid white;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  display: block;
 }
 
-/* Name */
-.profile-name-simple {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #2d3748;
-  margin-bottom: 30px;
+/* Content */
+.profile-content {
+  padding: 24px;
 }
 
-/* Balance Card */
-.balance-card-simple {
+.user-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0 0 8px 0;
+  text-align: center;
+}
+
+.user-email {
+  font-size: 14px;
+  color: #718096;
+  text-align: center;
+  margin: 0 0 24px 0;
+}
+
+/* Balance Section */
+.balance-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 20px;
-  padding: 30px;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  text-align: center;
   color: white;
-  margin-top: 20px;
 }
 
 .balance-label {
-  font-size: 1rem;
+  font-size: 14px;
+  font-weight: 500;
   opacity: 0.9;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
 }
 
-.balance-amount-simple {
-  margin: 20px 0;
+.balance-amount {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
 }
 
 .currency {
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-right: 5px;
+  font-size: 24px;
+  font-weight: 600;
 }
 
-.amount {
-  font-size: 2.5rem;
-  font-weight: bold;
+.main-amount {
+  font-size: 52px;
+  font-weight: 800;
 }
 
 .decimal {
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 28px;
+  font-weight: 600;
 }
 
-.add-balance-btn {
+.add-btn {
   background: rgba(255, 255, 255, 0.2);
-  border: none;
-  padding: 12px 30px;
-  border-radius: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   color: white;
-  font-size: 1rem;
+  padding: 12px 24px;
+  border-radius: 40px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 10px;
+  width: 100%;
 }
 
-.add-balance-btn:hover {
+.add-btn:hover {
   background: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .profile-simple {
-    padding: 15px 15px 70px 15px;
-  }
-  
-  .profile-card-simple {
-    padding: 30px 20px;
-  }
-  
-  .profile-image-simple {
-    width: 120px;
-    height: 120px;
-  }
-  
-  .profile-name-simple {
-    font-size: 1.5rem;
-  }
-  
-  .amount {
-    font-size: 2rem;
-  }
-  
-  .currency {
-    font-size: 1rem;
-  }
+.add-btn:active {
+  transform: translateY(0);
 }
 
+/* Info Grid */
+.info-list {
+  margin-bottom: 24px;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e2e8f0;
+  align-items: center;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7fafc;
+  border-radius: 12px;
+}
+
+.info-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: #718096;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+/* Stats Grid (for the multiple info items) */
+.info-row:has(.info-icon) {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.info-row:has(.info-icon) > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 12px;
+  background: #f7fafc;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.info-row:has(.info-icon) > div:hover {
+  background: #edf2f7;
+  transform: translateY(-2px);
+}
+
+.info-row:has(.info-icon) .info-icon {
+  margin-bottom: 8px;
+  background: transparent;
+  font-size: 28px;
+}
+
+.info-row:has(.info-icon) .info-title {
+  font-size: 11px;
+  margin-bottom: 0;
+  text-transform: none;
+}
+
+/* Logout Button */
+.logout-btn {
+  width: 100%;
+  background: #f56565;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.logout-btn:hover {
+  background: #e53e3e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(229, 62, 62, 0.3);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
 @media (max-width: 480px) {
-  .profile-image-simple {
+  .profile-page {
+    padding: 16px 12px 80px;
+  }
+  
+  .profile-content {
+    padding: 20px;
+  }
+  
+  .profile-avatar {
     width: 100px;
     height: 100px;
   }
   
-  .profile-name-simple {
-    font-size: 1.3rem;
+  .user-name {
+    font-size: 22px;
   }
   
-  .balance-card-simple {
-    padding: 20px;
+  .balance-amount {
+    font-size: 36px;
   }
   
-  .amount {
-    font-size: 1.5rem;
+  .main-amount {
+    font-size: 42px;
   }
   
-  .add-balance-btn {
-    padding: 10px 25px;
-    font-size: 0.9rem;
+  .info-row:has(.info-icon) {
+    gap: 12px;
   }
+  
+  .info-row:has(.info-icon) > div {
+    padding: 8px;
+  }
+}
+
+/* Loading State (Optional) */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+  background-size: 1000px 100%;
+}
+
+/* Smooth Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
