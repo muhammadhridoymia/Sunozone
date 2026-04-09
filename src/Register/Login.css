@@ -67,4 +67,7 @@
     width: 90%;
     padding: 20px;
   }
+  .login-box input {
+  width: 90%;
+}
 }

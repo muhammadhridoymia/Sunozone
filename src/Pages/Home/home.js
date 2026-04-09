@@ -6,14 +6,23 @@ import { SkeletonCard } from "../../LoadingUI/Skeleton/SkeletonCard";
 import "./home.css";
 
 const Home = () => {
-
   const [callWeekly, setCallWeekly] = useState(false);
   const [callMonthly, setCallMonthly] = useState(false);
   const [callYearly, setCallYearly] = useState(false);
   //Context State and API calls
-  const { TopStories, loading, fetchStories, weeklyTopStories, monthlyTopStories, yearlyTopStories,setWeeklyTopStories, setMonthlyTopStories, setYearlyTopStories } = useApi();
+  const {
+    TopStories,
+    loading,
+    fetchStories,
+    weeklyTopStories,
+    monthlyTopStories,
+    yearlyTopStories,
+    setWeeklyTopStories,
+    setMonthlyTopStories,
+    setYearlyTopStories,
+  } = useApi();
 
-  // Fetch weekly stories 
+  // Fetch weekly stories
   useEffect(() => {
     if (callWeekly && weeklyTopStories.length === 0) {
       fetchStories("week", setWeeklyTopStories);
@@ -87,12 +96,13 @@ const Home = () => {
   const monthStoriesRef = useRef(null);
   const yearStoriesRef = useRef(null);
 
+
   const handleSearchClick = () => {
     navigate("/search");
-  };
+  }
 
   const handleStoryClick = (story) => {
-    navigate("/player", { state: { story } });
+    navigate(`/player/${story._id}`, { state: { story } });
   };
 
   const handleSeeAllClick = (category) => {

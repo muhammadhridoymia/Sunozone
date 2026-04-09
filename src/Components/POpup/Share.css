@@ -1,0 +1,203 @@
+/* SharePopUp.css */
+
+.share-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.share-popup {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  margin: 20px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  animation: popupScale 0.3s ease;
+}
+
+.share-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.share-header h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #222222;
+  font-weight: 600;
+}
+
+.share-header p {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #666666;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: #999999;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  background: #f5f5f5;
+  color: #333333;
+}
+
+.social-icons {
+  padding: 32px 24px;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.icon-btn:hover {
+  transform: translateY(-6px);
+}
+
+.icon-btn svg {
+  font-size: 42px;
+  padding: 12px;
+  border-radius: 18px;
+  margin-bottom: 8px;
+  color: white;
+  transition: all 0.3s;
+}
+
+.facebook svg { background: #1877F2; }
+.twitter svg  { background: #1DA1F2; }
+.linkedin svg { background: #0A66C2; }
+.whatsapp svg { background: #25D366; }
+
+.icon-btn span {
+  font-size: 13px;
+  color: #555555;
+  font-weight: 500;
+}
+
+.copy-section {
+  padding: 0 24px 28px;
+}
+
+.copy-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #444444;
+  margin-bottom: 10px;
+}
+
+.copy-box {
+  display: flex;
+  background: #f8f9fa;
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.link-input {
+  flex: 1;
+  width: 20px;
+  padding: 14px 16px;
+  border: none;
+  background: transparent;
+  font-size: 14.5px;
+  font-family: 'Courier New', monospace;
+  color: #333333;
+  outline: none;
+}
+
+.copy-btn {
+  padding: 0 22px;
+  background: #0066ff;
+  color: white;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.copy-btn:hover {
+  background: #0052cc;
+}
+
+.share-footer {
+  padding: 16px 24px;
+  text-align: center;
+  border-top: 1px solid #eeeeee;
+}
+
+.close-text-btn {
+  background: none;
+  border: none;
+  color: #666666;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 6px 12px;
+}
+
+.close-text-btn:hover {
+  color: #222222;
+  text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popupScale {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .social-icons {
+    gap: 20px;
+    padding: 28px 20px;
+  }
+  
+  .icon-btn svg {
+    font-size: 36px;
+    padding: 10px;
+  }
+}

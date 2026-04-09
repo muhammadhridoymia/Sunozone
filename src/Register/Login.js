@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import BottomNav from "../Components/BottomNav/BottomNav";
 import "./Login.css";
 
 const Login = () => {
+
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,7 +16,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = `${API_BASE_URL}/auth/google`;
   };
 
   return (
@@ -48,6 +52,7 @@ const Login = () => {
           Continue with Google
         </button>
       </div>
+      <BottomNav />
     </div>
   );
 };

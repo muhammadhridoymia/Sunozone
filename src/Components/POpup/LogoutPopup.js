@@ -2,6 +2,8 @@ import React from 'react';
 import './LogoutPopup.css';
 
 function LogoutPopup({ onClose }) {
+
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
