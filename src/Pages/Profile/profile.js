@@ -22,9 +22,11 @@ const Profile = () => {
     setShowLogoutPopup(true);
   };
 
+  
+
   return (
     <>
-      {showLogoutPopup && <LogoutPopup onClose={()=> setShowLogoutPopup(false)} />}
+     {showLogoutPopup && <LogoutPopup onClose={()=> setShowLogoutPopup(false)} />}
       <div className="profile-page">
         <div className="profile-container">
           {/* Main Card */}

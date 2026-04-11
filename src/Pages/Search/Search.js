@@ -32,7 +32,7 @@ const SearchPage = () => {
   ];
 
   const handleStoryClick = (story) => {
-    navigate('/player', { state: { story } });
+    navigate(`/player/${story._id}`);
   };
 
 

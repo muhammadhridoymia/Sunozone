@@ -14,11 +14,9 @@ function LogoutPopup({ onClose }) {
     <div className="logout-popup-overlay">
       <div className="logout-popup">
         <div className="popup-content">
-          {/* Icon */}
-          <div className="logout-icon">🚪</div>
-          
+
           <h2>Logout?</h2>
-          <p>Are you sure you want to logout from your account?</p>
+          <p>Are you sure? You want to logout from your account?</p>
 
           <div className="popup-actions">
             <button className="cancel-btn" onClick={onClose}>

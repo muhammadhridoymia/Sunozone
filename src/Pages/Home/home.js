@@ -210,10 +210,10 @@ const Home = () => {
                         </p>
                         <div className="story-meta">
                           <span className="reads">
-                            {story.stats?.views || 0} views
+                            {story.status?.views || 0} views
                           </span>
                           <span className="reads">
-                            {story.stats?.likes || 0} likes
+                            {story.status?.likes || 0} likes
                           </span>
                         </div>
                       </div>

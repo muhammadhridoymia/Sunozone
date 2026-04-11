@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Login from "../../Register/Login";
 import {
   FaPlay,
   FaPause,
@@ -16,17 +17,25 @@ import ReadingPopup from "../POpup/ReadingPopup";
 import { fetchStoryAudio } from "../../Api/StoriesAudio";
 import { fetchStoryText } from "../../Api/StoriesText";
 import SharePopUp from "../POpup/Share";
+import { UpdateStatus } from "../../Api/UpdatedStatus";
+import CommentPopup from "../POpup/Comment";
 import "./player.css";
 
 const AudioPlayer = () => {
   const navigate = useNavigate();
+  // Token
+  const token = localStorage.getItem("token");
+
+  //Popup
   const [showSharePopup, setShowSharePopup] = useState(false);
+  const [showCommentUi,setCommentUi]=useState(false)
+
+
   const { TopStories, loading } = useApi();
   const { storyId } = useParams();
   const url = `${window.location.origin}/player/${storyId}`;
+  const [showlogin,setShowLogin]=useState(false)
 
-  const location = useLocation();
-  const passedStory = location.state?.story;
 
   const [currentStory, setCurrentStory] = useState();
 
@@ -51,6 +60,7 @@ const AudioPlayer = () => {
         console.log("Fetched audio data:", audioData);
         if (audioData && audioData.audio) {
           setCurrentStory(audioData);
+          setIsLiked(audioData?.isLiked)
           setBanglaAudio(audioData.audio.bangla.url);
           setSelectedAudio(
             isBangla ? audioData.audio.bangla.url : audioData.audio.english.url,
@@ -63,6 +73,7 @@ const AudioPlayer = () => {
 
       loadAudio();
     }
+    window.scrollTo(0, 0);
   }, [storyId]);
 
   //Text fetching and state management for Read Text feature
@@ -174,8 +185,18 @@ const AudioPlayer = () => {
   };
 
   const handleLike = () => {
-    setIsLiked(!isLiked);
-    alert(isLiked ? "Removed from favorites" : "Added to favorites");
+    const updateStatus = async () => {
+      const result = await UpdateStatus(storyId, "likes", null);
+      console.log("Like status updated:", result);
+      if (result.success) {
+        setIsLiked(!isLiked);
+      }
+    };
+    if(token){
+      updateStatus();
+    }else{
+      setShowLogin(true)
+    }
   };
 
   const handleShare = () => {
@@ -194,10 +215,14 @@ const AudioPlayer = () => {
     });
   };
 
-  // only showing JSX part (no logic changed)
-
+  //Navigate to Login
+  if(showlogin){
+    navigate("/login")
+   }
+   
   return (
     <>
+    {showCommentUi && <CommentPopup onClose={()=> setCommentUi(false)}/>}
         {showSharePopup && (<SharePopUp link={url} onClose={() => setShowSharePopup(false)} />)}
       <div className="apx-container">
         <audio ref={audioRef} src={selectedAudio} />
@@ -273,8 +298,15 @@ const AudioPlayer = () => {
               <FaShare /> Share
             </button>
 
-            <button className="apx-action">Add to Playlist</button>
-            <button className="apx-action">Comment</button>
+            <button className="apx-action"
+            >A
+            dd to Playlist
+            </button>
+            <button className="apx-action"
+            onClick={()=> setCommentUi(true)}
+            >
+            Comment
+            </button>
 
             <button
               className={`apx-action ${isBangla ? "active-audio" : ""}`}
