@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Login from "../../Register/Login";
 import {
   FaPlay,
   FaPause,
@@ -18,6 +17,7 @@ import { fetchStoryAudio } from "../../Api/StoriesAudio";
 import { fetchStoryText } from "../../Api/StoriesText";
 import SharePopUp from "../POpup/Share";
 import { UpdateStatus } from "../../Api/UpdatedStatus";
+import { RecommendStory } from "../../Api/getRecommendedStories";
 import CommentPopup from "../POpup/Comment";
 import "./player.css";
 
@@ -25,13 +25,15 @@ const AudioPlayer = () => {
   const navigate = useNavigate();
   // Token
   const token = localStorage.getItem("token");
+  const { TopStories, loading } = useApi();
 
   //Popup
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [showCommentUi,setCommentUi]=useState(false)
 
+  //Recommend Stories
+  const [relatedStories,setRelatedStories]=useState([])
 
-  const { TopStories, loading } = useApi();
   const { storyId } = useParams();
   const url = `${window.location.origin}/player/${storyId}`;
   const [showlogin,setShowLogin]=useState(false)
@@ -96,8 +98,7 @@ const AudioPlayer = () => {
     setShowReadText(true);
   };
 
-  // Related stories will replace this with actual logic to fetch related stories based on currentStory
-  const relatedStories = TopStories;
+
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -214,6 +215,20 @@ const AudioPlayer = () => {
       state: { story },
     });
   };
+
+  //Recommend Stories
+  useEffect(()=>{
+    if(storyId){
+      const Fetch= async ()=>{
+        const res= await RecommendStory(storyId)
+        console.log("recommend Story is : ",res.data)
+        if(res.success){
+          setRelatedStories(res.data)
+        }
+      }
+      Fetch()
+    }
+  },[])
 
   //Navigate to Login
   if(showlogin){
