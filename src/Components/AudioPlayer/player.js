@@ -25,7 +25,7 @@ const AudioPlayer = () => {
   const navigate = useNavigate();
   // Token
   const token = localStorage.getItem("token");
-  const { loading } = useApi();
+  const[loading,setloading]=useState(true)
 
   //Popup
   const [showSharePopup, setShowSharePopup] = useState(false);
@@ -240,6 +240,7 @@ const AudioPlayer = () => {
         console.log("recommend Story is : ", res.data);
         if (res.success) {
           setRelatedStories(res.data);
+          setloading(false)
         }
       };
       Fetch();
