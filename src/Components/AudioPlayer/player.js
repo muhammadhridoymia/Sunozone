@@ -29,15 +29,14 @@ const AudioPlayer = () => {
 
   //Popup
   const [showSharePopup, setShowSharePopup] = useState(false);
-  const [showCommentUi,setCommentUi]=useState(false)
+  const [showCommentUi, setCommentUi] = useState(false);
 
   //Recommend Stories
-  const [relatedStories,setRelatedStories]=useState([])
+  const [relatedStories, setRelatedStories] = useState([]);
 
   const { storyId } = useParams();
   const url = `${window.location.origin}/player/${storyId}`;
-  const [showlogin,setShowLogin]=useState(false)
-
+  const [showlogin, setShowLogin] = useState(false);
 
   const [currentStory, setCurrentStory] = useState();
 
@@ -65,12 +64,14 @@ const AudioPlayer = () => {
 
         if (audioData && audioData.audio) {
           setCurrentStory(audioData);
-          setIsLiked(audioData?.isLiked)
+          setIsLiked(audioData?.isLiked);
           setBanglaAudio(audioData.audio.bangla.url);
           setEnglishAudio(audioData.audio.english.url);
 
           // Set audio as default
-          setSelectedAudio(  isBangla ? audioData.audio.bangla.url : audioData.audio.english.url,);
+          setSelectedAudio(
+            isBangla ? audioData.audio.bangla.url : audioData.audio.english.url,
+          );
         } else {
           console.error("Failed to load audio for story");
         }
@@ -101,35 +102,39 @@ const AudioPlayer = () => {
     setShowReadText(true);
   };
 
-
-
+  // Audio
   useEffect(() => {
     const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setCurrentTime(0);
+    };
+
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration);
+      setIsAudioLoading(false);
+    };
+
+    const updateProgress = () => {
+      if (audioRef.current) {
+        setCurrentTime(audioRef.current.currentTime);
+      }
+    };
 
     if (audio) {
       audio.addEventListener("timeupdate", updateProgress);
-      audio.addEventListener("loadedmetadata", () => {
-        setDuration(audio.duration);
-        setIsAudioLoading(false);
-      });
-      audio.addEventListener("ended", () => {
-        setIsPlaying(false);
-        setCurrentTime(0);
-      });
+      audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.addEventListener("ended", handleEnded);
 
       return () => {
         audio.removeEventListener("timeupdate", updateProgress);
-        audio.removeEventListener("loadedmetadata", () => {});
-        audio.removeEventListener("ended", () => {});
+        audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+        audio.removeEventListener("ended", handleEnded);
       };
     }
-  }, []);
-
-  const updateProgress = () => {
-    if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  };
+  }, [selectedAudio]);
 
   const togglePlay = () => {
     if (isPlaying) {
@@ -137,7 +142,7 @@ const AudioPlayer = () => {
     } else {
       audioRef.current.play();
     }
-    setIsPlaying(!isPlaying);
+    setIsPlaying((prev) => !prev);
   };
 
   const handleProgressChange = (e) => {
@@ -172,22 +177,32 @@ const AudioPlayer = () => {
       );
     }
   };
+
+  // Audio Change Controller
   const audioChangeControl = (lang) => {
-    if (lang === "bangla") {
-      setIsBangla(true);
-      setSelectedAudio(banglaAudio);
-      setIsBangla(true);
-    } else {
-      setIsBangla(false);
-      setSelectedAudio(englishAudio);
-      setIsBangla(false);
-    }
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const newUrl = lang === "bangla" ? banglaAudio : englishAudio;
+    if (!newUrl) return;
+
+    // Pause first
+    audio.pause();
+
+    // Change source
+    setSelectedAudio(newUrl);
+    setIsBangla(lang === "bangla");
     setCurrentTime(0);
     setIsPlaying(false);
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
+    
   };
+
+  //Reload Song after change
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+    }
+  }, [selectedAudio]);
 
   // Handle Likes
   const handleLike = () => {
@@ -198,57 +213,54 @@ const AudioPlayer = () => {
         setIsLiked(!isLiked);
       }
     };
-    if(token){
+    if (token) {
       updateStatus();
-    }else{
-      setShowLogin(true)
+    } else {
+      setShowLogin(true);
     }
   };
 
   //Share PopUp
   const handleShare = () => {
     setShowSharePopup(true);
-    
   };
-
 
   // Handle Story Click
   const handleStoryClick = (story) => {
-    setStoryText("")
-    setCurrentStory(story);
     setCurrentTime(0);
-    setIsPlaying(false);
-    navigate(`/player/${story._id}`, {
-      state: { story },
-    });
+    setStoryText("");
+    navigate(`/player/${story._id}`);
   };
 
   //Recommend Stories
-  useEffect(()=>{
-    if(storyId){
-      const Fetch= async ()=>{
-        const res= await RecommendStory(storyId)
-        console.log("recommend Story is : ",res.data)
-        if(res.success){
-          setRelatedStories(res.data)
+  useEffect(() => {
+    if (storyId) {
+      const Fetch = async () => {
+        const res = await RecommendStory(storyId);
+        console.log("recommend Story is : ", res.data);
+        if (res.success) {
+          setRelatedStories(res.data);
         }
-      }
-      Fetch()
+      };
+      Fetch();
     }
-  },[])
+  }, [storyId]);
 
   //Navigate to Login
-  if(showlogin){
-    navigate("/login")
-   }
-   
+  useEffect(() => {
+    if (showlogin) {
+      navigate("/login");
+    }
+  }, [showlogin, navigate]);
+
   return (
     <>
-    {showCommentUi && <CommentPopup onClose={()=> setCommentUi(false)}/>}
-        {showSharePopup && (<SharePopUp link={url} onClose={() => setShowSharePopup(false)} />)}
+      {showCommentUi && <CommentPopup onClose={() => setCommentUi(false)} />}
+      {showSharePopup && (
+        <SharePopUp link={url} onClose={() => setShowSharePopup(false)} />
+      )}
       <div className="apx-container">
-
-        <audio ref={audioRef} src={selectedAudio} />
+        <audio key={selectedAudio} ref={audioRef} src={selectedAudio} />
 
         {showReadText && (
           <ReadingPopup
@@ -290,27 +302,33 @@ const AudioPlayer = () => {
           </div>
 
           <div className="apx-controls">
-            <button 
-            className="apx-btn-small" 
-            onClick={skipBackward}
-            disabled={isAudioLoading}
+            <button
+              className="apx-btn-small"
+              onClick={skipBackward}
+              disabled={isAudioLoading}
             >
               <FaBackward />
               <span>30</span>
             </button>
 
-            <button 
-            className="apx-btn-play" 
-            onClick={togglePlay}
-            disabled={isAudioLoading}
+            <button
+              className="apx-btn-play"
+              onClick={togglePlay}
+              disabled={isAudioLoading}
             >
-             {isAudioLoading ? <div className="loader"></div> : (isPlaying ? <FaPause /> : <FaPlay />)}
+              {isAudioLoading ? (
+                <div className="loader"></div>
+              ) : isPlaying ? (
+                <FaPause />
+              ) : (
+                <FaPlay />
+              )}
             </button>
 
-            <button 
-            className="apx-btn-small" 
-            onClick={skipForward}
-            disabled={isAudioLoading}
+            <button
+              className="apx-btn-small"
+              onClick={skipForward}
+              disabled={isAudioLoading}
             >
               <FaForward />
               <span>30</span>
@@ -333,20 +351,15 @@ const AudioPlayer = () => {
               <FaShare /> Share
             </button>
 
-            <button className="apx-action"
-            >A
-            dd to Playlist
-            </button>
-            <button className="apx-action"
-            onClick={()=> setCommentUi(true)}
-            >
-            Comment
+            <button className="apx-action">A dd to Playlist</button>
+            <button className="apx-action" onClick={() => setCommentUi(true)}>
+              Comment
             </button>
 
             <button
               className={`apx-action ${isBangla ? "active-audio" : ""}`}
               onClick={() => audioChangeControl("bangla")}
-              hidden={banglaAudio === ""}
+              hidden={!banglaAudio}
             >
               Bangla
             </button>
@@ -354,7 +367,7 @@ const AudioPlayer = () => {
             <button
               className={`apx-action ${!isBangla ? "active-audio" : ""}`}
               onClick={() => audioChangeControl("english")}
-              hidden={englishAudio === ""}
+              hidden={!englishAudio}
             >
               English
             </button>
