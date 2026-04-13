@@ -25,7 +25,7 @@ const AudioPlayer = () => {
   const navigate = useNavigate();
   // Token
   const token = localStorage.getItem("token");
-  const { TopStories, loading } = useApi();
+  const { loading } = useApi();
 
   //Popup
   const [showSharePopup, setShowSharePopup] = useState(false);
@@ -48,6 +48,7 @@ const AudioPlayer = () => {
   const [showReadText, setShowReadText] = useState(false);
 
   //audio control states
+  const [isAudioLoading, setIsAudioLoading] = useState(true);
   const [banglaAudio, setBanglaAudio] = useState(null);
   const [englishAudio, setEnglishAudio] = useState(null);
   const [selectedAudio, setSelectedAudio] = useState(null);
@@ -55,19 +56,21 @@ const AudioPlayer = () => {
 
   const audioRef = useRef(null);
 
+  // Audio Fetching
   useEffect(() => {
+    setIsAudioLoading(true);
     if (storyId) {
       const loadAudio = async () => {
         const audioData = await fetchStoryAudio(storyId);
-        console.log("Fetched audio data:", audioData);
+
         if (audioData && audioData.audio) {
           setCurrentStory(audioData);
           setIsLiked(audioData?.isLiked)
           setBanglaAudio(audioData.audio.bangla.url);
-          setSelectedAudio(
-            isBangla ? audioData.audio.bangla.url : audioData.audio.english.url,
-          ); // Set audio as default
           setEnglishAudio(audioData.audio.english.url);
+
+          // Set audio as default
+          setSelectedAudio(  isBangla ? audioData.audio.bangla.url : audioData.audio.english.url,);
         } else {
           console.error("Failed to load audio for story");
         }
@@ -107,6 +110,7 @@ const AudioPlayer = () => {
       audio.addEventListener("timeupdate", updateProgress);
       audio.addEventListener("loadedmetadata", () => {
         setDuration(audio.duration);
+        setIsAudioLoading(false);
       });
       audio.addEventListener("ended", () => {
         setIsPlaying(false);
@@ -185,6 +189,7 @@ const AudioPlayer = () => {
     }
   };
 
+  // Handle Likes
   const handleLike = () => {
     const updateStatus = async () => {
       const result = await UpdateStatus(storyId, "likes", null);
@@ -200,13 +205,15 @@ const AudioPlayer = () => {
     }
   };
 
+  //Share PopUp
   const handleShare = () => {
     setShowSharePopup(true);
     
   };
 
+
+  // Handle Story Click
   const handleStoryClick = (story) => {
-    //stop audio when navigating to new story
     setStoryText("")
     setCurrentStory(story);
     setCurrentTime(0);
@@ -240,6 +247,7 @@ const AudioPlayer = () => {
     {showCommentUi && <CommentPopup onClose={()=> setCommentUi(false)}/>}
         {showSharePopup && (<SharePopUp link={url} onClose={() => setShowSharePopup(false)} />)}
       <div className="apx-container">
+
         <audio ref={audioRef} src={selectedAudio} />
 
         {showReadText && (
@@ -282,16 +290,28 @@ const AudioPlayer = () => {
           </div>
 
           <div className="apx-controls">
-            <button className="apx-btn-small" onClick={skipBackward}>
+            <button 
+            className="apx-btn-small" 
+            onClick={skipBackward}
+            disabled={isAudioLoading}
+            >
               <FaBackward />
               <span>30</span>
             </button>
 
-            <button className="apx-btn-play" onClick={togglePlay}>
-              {isPlaying ? <FaPause /> : <FaPlay />}
+            <button 
+            className="apx-btn-play" 
+            onClick={togglePlay}
+            disabled={isAudioLoading}
+            >
+             {isAudioLoading ? <div className="loader"></div> : (isPlaying ? <FaPause /> : <FaPlay />)}
             </button>
 
-            <button className="apx-btn-small" onClick={skipForward}>
+            <button 
+            className="apx-btn-small" 
+            onClick={skipForward}
+            disabled={isAudioLoading}
+            >
               <FaForward />
               <span>30</span>
             </button>
