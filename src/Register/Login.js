@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import BottomNav from "../Components/BottomNav/BottomNav";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
+
+  const navigate = useNavigate();
 
   const API_BASE_URL = process.env.REACT_APP_API_URL;
 
@@ -53,7 +56,13 @@ const Login = () => {
         </button>
         {/* registration link can be added here */}
         <p className="register-link">
-          Don't have an account? <a href="/register">Register here</a>
+          Don't have an account? 
+          <p className="register-text" onClick={(e) => {
+            e.preventDefault();
+            navigate("/register");
+          }}>
+            Register here
+          </p>
         </p>
 
       </div>

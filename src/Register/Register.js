@@ -1,11 +1,15 @@
 import React from 'react'
 import { useState } from 'react';
 import BottomNav from '../Components/BottomNav/BottomNav';
+import { useNavigate } from 'react-router-dom';
 import "./Register.css";
 
 
 function Register() {
     const API_BASE_URL = process.env.REACT_APP_API_URL;
+    const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
     const [user,setUser] = useState({
         name:"",
         email:"",
@@ -13,8 +17,16 @@ function Register() {
         password:""
         });
 
+        //save login data in local storage and navigate to home page
+        const saveUserData = (user,token) => {
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', token);
+        };
+
+
         const handleRegister = async (e) => {
             e.preventDefault();
+            setLoading(true);
             try {
                 const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
                     method: 'POST',
@@ -24,18 +36,22 @@ function Register() {
                     body: JSON.stringify(user),
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
                 const data = await response.json();
-                console.log('Registration successful:', data);
-                // Redirect to login page or show success message
+                if(data.success){
+                    saveUserData(data.user, data.token);
+                    console.log('Registration successful:', data);
+                    navigate('/')
+                } else {
+                    // Handle registration failure (e.g., show error message)
+                    console.error('Registration failed:', response.message);
+                }
             } catch (error) {
                 console.error('Error during registration:', error);
                 // Show error message to user
             }
-        
+            finally {
+                setLoading(false);
+            }
         };
   return (
     <div className='register-container'>
