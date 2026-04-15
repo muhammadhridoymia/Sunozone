@@ -51,6 +51,11 @@ const Login = () => {
         <button className="google-btn" onClick={handleGoogleLogin}>
           Continue with Google
         </button>
+        {/* registration link can be added here */}
+        <p className="register-link">
+          Don't have an account? <a href="/register">Register here</a>
+        </p>
+
       </div>
       <BottomNav />
     </div>

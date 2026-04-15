@@ -9,6 +9,7 @@ import SearchPage from './Pages/Search/Search';
 import Lines from './Pages/Lines/Lines';
 import Login from './Register/Login';
 import LoginSuccess from './Register/LoginSuccess';
+import Register from './Register/Register';
 import './App.css';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/lines" element={<Lines />} />
             <Route path="/login" element={<Login />} />
             <Route path="/login-success" element={<LoginSuccess />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
       </ApiProvider>

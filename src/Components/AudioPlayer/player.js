@@ -25,7 +25,7 @@ const AudioPlayer = () => {
   const navigate = useNavigate();
   // Token
   const token = localStorage.getItem("token");
-  const[loading,setloading]=useState(true)
+  const [loading, setloading] = useState(true);
 
   //Popup
   const [showSharePopup, setShowSharePopup] = useState(false);
@@ -194,7 +194,6 @@ const AudioPlayer = () => {
     setIsBangla(lang === "bangla");
     setCurrentTime(0);
     setIsPlaying(false);
-    
   };
 
   //Reload Song after change
@@ -240,12 +239,34 @@ const AudioPlayer = () => {
         console.log("recommend Story is : ", res.data);
         if (res.success) {
           setRelatedStories(res.data);
-          setloading(false)
+          setloading(false);
         }
       };
       Fetch();
     }
   }, [storyId]);
+
+  // Handle audio loading states can play and waiting events
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleCanPlay = () => {
+      setIsAudioLoading(false);
+    };
+
+    const handleWaiting = () => {
+      setIsAudioLoading(true);
+    };
+
+    audio.addEventListener("canplay", handleCanPlay);
+    audio.addEventListener("waiting", handleWaiting);
+
+    return () => {
+      audio.removeEventListener("canplay", handleCanPlay);
+      audio.removeEventListener("waiting", handleWaiting);
+    };
+  }, [selectedAudio]);
 
   //Navigate to Login
   useEffect(() => {
@@ -299,6 +320,7 @@ const AudioPlayer = () => {
               max={duration || 0}
               onChange={handleProgressChange}
               step="0.1"
+              disabled={isAudioLoading}
             />
           </div>
 
@@ -405,6 +427,7 @@ const AudioPlayer = () => {
                       <span className="apx-card-duration">
                         ⏱️ {story.duration}
                       </span>
+                      <p>{story.status.likes} likes</p>
                     </div>
                   </div>
                 ))}
