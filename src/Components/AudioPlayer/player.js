@@ -64,6 +64,7 @@ const AudioPlayer = () => {
 
         if (audioData && audioData.audio) {
           setCurrentStory(audioData);
+          console.log("Fetched audio data:", audioData);
           setIsLiked(audioData?.isLiked);
           setBanglaAudio(audioData.audio.bangla.url);
           setEnglishAudio(audioData.audio.english.url);
@@ -396,14 +397,13 @@ const AudioPlayer = () => {
             </button>
           </div>
         </div>
-
-        <div className="apx-related">
-          <div className="apx-related-head">
+        <div className="related-section">
+          <div className="related-header">
             <h2>Recommended for You</h2>
             <p>Based on your listening history</p>
           </div>
 
-          <div className="apx-grid">
+          <div className="related-grid">
             {loading
               ? Array(9)
                   .fill()
@@ -411,23 +411,36 @@ const AudioPlayer = () => {
               : relatedStories.map((story) => (
                   <div
                     key={story._id}
-                    className="apx-card"
+                    className="story-card"
                     onClick={() => handleStoryClick(story)}
                   >
-                    <div className="apx-card-img">
-                      <img src={story.imageUrl} alt={story.title} />
-                      <div className="apx-play-overlay">
-                        <FaPlay className="apx-play-icon" />
+                    {/* Thumbnail Container */}
+                    <div className="thumbnail-wrapper">
+                      <img
+                        src={story.imageUrl}
+                        alt={story.title}
+                        className="thumbnail"
+                      />
+
+                      {/* Duration Badge */}
+                      <div className="duration-badge">
+                        {story.duration || "0:00"}
                       </div>
                     </div>
 
-                    <div className="apx-card-info">
-                      <h4 className="apx-card-title">{story.title}</h4>
-                      <p className="apx-card-writer">writer {story.writer}</p>
-                      <span className="apx-card-duration">
-                        ⏱️ {story.duration}
-                      </span>
-                      <p>{story.status.likes} likes</p>
+                    {/* Card Info */}
+                    <div className="card-info">
+                      <h3 className="card-title">{story.title}</h3>
+
+                      <p className="card-author">
+                        {story.writer || "Unknown Author"}
+                      </p>
+
+                      <div className="card-meta">
+                        <span>{story.status?.views || 0} views</span>
+                        <span className="meta-dot">•</span>
+                        <span>{story.status?.likes || 0} likes</span>
+                      </div>
                     </div>
                   </div>
                 ))}

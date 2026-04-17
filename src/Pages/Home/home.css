@@ -206,7 +206,8 @@
 
 /* Story Card */
 .story-card-horizontal {
-  flex: 0 0 220px;
+  flex: 0 0 400px;
+
   background: var(--bg-white);
   border-radius: 12px;
   overflow: hidden;
@@ -383,7 +384,7 @@
 
 @media (max-width: 480px) {
   .story-card-horizontal {
-    flex: 0 0 160px;
+    flex: 0 0 280px;
   }
   
   .story-image-wrapper {
