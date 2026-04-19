@@ -19,7 +19,7 @@ export const fetchStoryAudio = async (storyId) => {
     const data = await response.json();
 
     if (data.success) {
-      return data.data;
+      return data?.data || null;
     } else {
       console.error(data.message);
       return null;

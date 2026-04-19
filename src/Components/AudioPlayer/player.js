@@ -10,7 +10,6 @@ import {
   FaShare,
 } from "react-icons/fa";
 import BottomNav from "../BottomNav/BottomNav";
-import { useApi } from "../../Context/apiContext";
 import { SkeletonCard } from "../../LoadingUI/playerSkeleton/skeleton";
 import ReadingPopup from "../POpup/ReadingPopup";
 import { fetchStoryAudio } from "../../Api/StoriesAudio";
@@ -66,8 +65,8 @@ const AudioPlayer = () => {
           setCurrentStory(audioData);
           console.log("Fetched audio data:", audioData);
           setIsLiked(audioData?.isLiked);
-          setBanglaAudio(audioData.audio.bangla.url);
-          setEnglishAudio(audioData.audio.english.url);
+          setBanglaAudio(audioData.audio.bangla.url || null);
+          setEnglishAudio(audioData.audio.english.url || null);
 
           // Set audio as default
           setSelectedAudio(
@@ -210,7 +209,7 @@ const AudioPlayer = () => {
       const result = await UpdateStatus(storyId, "likes", null);
       console.log("Like status updated:", result);
       if (result.success) {
-        setIsLiked(!isLiked);
+        setIsLiked((prev) => !prev);
       }
     };
     if (token) {
@@ -237,6 +236,12 @@ const AudioPlayer = () => {
     if (storyId) {
       const Fetch = async () => {
         const res = await RecommendStory(storyId);
+        
+        if (!res) {
+          console.error("Server not responding");
+          setloading(false);
+          return;
+        }
         console.log("recommend Story is : ", res.data);
         if (res.success) {
           setRelatedStories(res.data);
@@ -283,7 +288,7 @@ const AudioPlayer = () => {
         <SharePopUp link={url} onClose={() => setShowSharePopup(false)} />
       )}
       <div className="apx-container">
-        <audio key={selectedAudio} ref={audioRef} src={selectedAudio} />
+        <audio ref={audioRef} src={selectedAudio} />
 
         {showReadText && (
           <ReadingPopup
@@ -379,24 +384,26 @@ const AudioPlayer = () => {
             <button className="apx-action" onClick={() => setCommentUi(true)}>
               Comment
             </button>
+            {banglaAudio && (
+              <button
+                className={`apx-action ${isBangla ? "active-audio" : ""}`}
+                onClick={() => audioChangeControl("bangla")}
+              >
+                Bangla
+              </button>
+            )}
 
-            <button
-              className={`apx-action ${isBangla ? "active-audio" : ""}`}
-              onClick={() => audioChangeControl("bangla")}
-              hidden={!banglaAudio}
-            >
-              Bangla
-            </button>
-
-            <button
-              className={`apx-action ${!isBangla ? "active-audio" : ""}`}
-              onClick={() => audioChangeControl("english")}
-              hidden={!englishAudio}
-            >
-              English
-            </button>
+            {englishAudio && (
+              <button
+                className={`apx-action ${!isBangla ? "active-audio" : ""}`}
+                onClick={() => audioChangeControl("english")}
+              >
+                English
+              </button>
+            )}
           </div>
         </div>
+
         <div className="related-section">
           <div className="related-header">
             <h2>Recommended for You</h2>
@@ -424,7 +431,7 @@ const AudioPlayer = () => {
 
                       {/* Duration Badge */}
                       <div className="duration-badge">
-                        {story.duration || "0:00"}
+                        {story.duration || "0:00"}m
                       </div>
                     </div>
 

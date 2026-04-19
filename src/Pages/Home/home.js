@@ -54,7 +54,7 @@ const Home = () => {
 
       // when user reaches near bottom
       if (
-        scrollPosition >= pageHeight - 700 &&
+        scrollPosition >= pageHeight - 900 &&
         !weeklyCalledRef.current &&
         weeklyTopStories.length === 0
       ) {
