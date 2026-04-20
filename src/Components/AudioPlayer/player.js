@@ -65,12 +65,14 @@ const AudioPlayer = () => {
           setCurrentStory(audioData);
           console.log("Fetched audio data:", audioData);
           setIsLiked(audioData?.isLiked);
-          setBanglaAudio(audioData.audio.bangla.url || null);
-          setEnglishAudio(audioData.audio.english.url || null);
+          setBanglaAudio(audioData?.audio?.bangla?.url || null);
+          setEnglishAudio(audioData?.audio?.english?.url || null);
 
           // Set audio as default
           setSelectedAudio(
-            isBangla ? audioData.audio.bangla.url : audioData.audio.english.url,
+            isBangla
+              ? audioData?.audio?.bangla?.url
+              : audioData?.audio?.english?.url,
           );
         } else {
           console.error("Failed to load audio for story");
@@ -80,7 +82,7 @@ const AudioPlayer = () => {
       loadAudio();
     }
     window.scrollTo(0, 0);
-  }, [storyId]);
+  }, [storyId, isBangla]);
 
   //Text fetching and state management for Read Text feature
   const [storyText, setStoryText] = useState("");
@@ -102,11 +104,11 @@ const AudioPlayer = () => {
     setShowReadText(true);
   };
 
-  // Audio
+  // Audio controls and event listeners
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-
+    
     const handleEnded = () => {
       setIsPlaying(false);
       setCurrentTime(0);
@@ -136,13 +138,17 @@ const AudioPlayer = () => {
     }
   }, [selectedAudio]);
 
-  const togglePlay = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
+  const togglePlay = async () => {
+    try {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        await audioRef.current.play();
+      }
+      setIsPlaying((prev) => !prev);
+    } catch (err) {
+      console.error("Play failed:", err);
     }
-    setIsPlaying((prev) => !prev);
   };
 
   const handleProgressChange = (e) => {
@@ -227,6 +233,9 @@ const AudioPlayer = () => {
 
   // Handle Story Click
   const handleStoryClick = (story) => {
+    setCurrentStory(null);
+    setSelectedAudio(null);
+    setIsPlaying(false);
     setCurrentTime(0);
     setStoryText("");
     navigate(`/player/${story._id}`);
@@ -237,7 +246,7 @@ const AudioPlayer = () => {
     if (storyId) {
       const Fetch = async () => {
         const res = await RecommendStory(storyId);
-        
+
         if (!res) {
           console.error("Server not responding");
           // setloading(false);
@@ -366,7 +375,11 @@ const AudioPlayer = () => {
           </div>
 
           <div className="apx-actions">
-            <button className="apx-action read" onClick={handleReadText} disabled={isAudioLoading}>
+            <button
+              className="apx-action read"
+              onClick={handleReadText}
+              disabled={isAudioLoading}
+            >
               Read
             </button>
 
@@ -378,14 +391,22 @@ const AudioPlayer = () => {
               <FaHeart /> {isLiked ? "Liked" : "Like"}
             </button>
 
-            <button className="apx-action" onClick={handleShare} disabled={isAudioLoading}>
+            <button
+              className="apx-action"
+              onClick={handleShare}
+              disabled={isAudioLoading}
+            >
               <FaShare /> Share
             </button>
 
             <button className="apx-action" disabled={isAudioLoading}>
               Add to Playlist
             </button>
-            <button className="apx-action" onClick={() => setCommentUi(true)} disabled={isAudioLoading}>
+            <button
+              className="apx-action"
+              onClick={() => setCommentUi(true)}
+              disabled={isAudioLoading}
+            >
               Comment
             </button>
             {banglaAudio && (
