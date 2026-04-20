@@ -199,6 +199,7 @@ const AudioPlayer = () => {
   //Reload Song after change
   useEffect(() => {
     if (audioRef.current) {
+      setIsPlaying(false);
       audioRef.current.load();
     }
   }, [selectedAudio]);
@@ -239,7 +240,7 @@ const AudioPlayer = () => {
         
         if (!res) {
           console.error("Server not responding");
-          setloading(false);
+          // setloading(false);
           return;
         }
         console.log("recommend Story is : ", res.data);
@@ -365,29 +366,33 @@ const AudioPlayer = () => {
           </div>
 
           <div className="apx-actions">
-            <button className="apx-action read" onClick={handleReadText}>
+            <button className="apx-action read" onClick={handleReadText} disabled={isAudioLoading}>
               Read
             </button>
 
             <button
               className={`apx-action ${isLiked ? "liked" : ""}`}
               onClick={handleLike}
+              disabled={isAudioLoading}
             >
               <FaHeart /> {isLiked ? "Liked" : "Like"}
             </button>
 
-            <button className="apx-action" onClick={handleShare}>
+            <button className="apx-action" onClick={handleShare} disabled={isAudioLoading}>
               <FaShare /> Share
             </button>
 
-            <button className="apx-action">A dd to Playlist</button>
-            <button className="apx-action" onClick={() => setCommentUi(true)}>
+            <button className="apx-action" disabled={isAudioLoading}>
+              Add to Playlist
+            </button>
+            <button className="apx-action" onClick={() => setCommentUi(true)} disabled={isAudioLoading}>
               Comment
             </button>
             {banglaAudio && (
               <button
                 className={`apx-action ${isBangla ? "active-audio" : ""}`}
                 onClick={() => audioChangeControl("bangla")}
+                disabled={isAudioLoading}
               >
                 Bangla
               </button>
@@ -397,6 +402,7 @@ const AudioPlayer = () => {
               <button
                 className={`apx-action ${!isBangla ? "active-audio" : ""}`}
                 onClick={() => audioChangeControl("english")}
+                disabled={isAudioLoading}
               >
                 English
               </button>
