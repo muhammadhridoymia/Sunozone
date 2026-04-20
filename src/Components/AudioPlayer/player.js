@@ -25,6 +25,7 @@ const AudioPlayer = () => {
   // Token
   const token = localStorage.getItem("token");
   const [loading, setloading] = useState(true);
+  const [likelaoding, setLikeLoading] = useState(false);
 
   //Popup
   const [showSharePopup, setShowSharePopup] = useState(false);
@@ -82,7 +83,7 @@ const AudioPlayer = () => {
       loadAudio();
     }
     window.scrollTo(0, 0);
-  }, [storyId, isBangla]);
+  }, [storyId]);
 
   //Text fetching and state management for Read Text feature
   const [storyText, setStoryText] = useState("");
@@ -108,7 +109,7 @@ const AudioPlayer = () => {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    
+
     const handleEnded = () => {
       setIsPlaying(false);
       setCurrentTime(0);
@@ -142,12 +143,14 @@ const AudioPlayer = () => {
     try {
       if (isPlaying) {
         audioRef.current.pause();
+        setIsPlaying(false);
       } else {
         await audioRef.current.play();
+        setIsPlaying(true);
       }
-      setIsPlaying((prev) => !prev);
     } catch (err) {
       console.error("Play failed:", err);
+      setIsPlaying(false); // make sure it resets on failure
     }
   };
 
@@ -204,10 +207,8 @@ const AudioPlayer = () => {
 
   //Reload Song after change
   useEffect(() => {
-    if (audioRef.current) {
-      setIsPlaying(false);
-      audioRef.current.load();
-    }
+    if (!selectedAudio || !audioRef.current) return;
+    audioRef.current.load();
   }, [selectedAudio]);
 
   // Handle Likes
@@ -217,9 +218,14 @@ const AudioPlayer = () => {
       console.log("Like status updated:", result);
       if (result.success) {
         setIsLiked((prev) => !prev);
+        setLikeLoading(false);
+      } else {
+        console.error("Failed to update like status");
+        setLikeLoading(false);
       }
     };
     if (token) {
+      setLikeLoading(true);
       updateStatus();
     } else {
       setShowLogin(true);
@@ -386,9 +392,16 @@ const AudioPlayer = () => {
             <button
               className={`apx-action ${isLiked ? "liked" : ""}`}
               onClick={handleLike}
-              disabled={isAudioLoading}
+              disabled={isAudioLoading || likelaoding}
             >
-              <FaHeart /> {isLiked ? "Liked" : "Like"}
+              {likelaoding ? (
+                <div className="like-loader"></div>
+              ) : (
+                <>
+                  <FaHeart />
+                  <span>{isLiked ? " Liked" : " Like"}</span>
+                </>
+              )}
             </button>
 
             <button

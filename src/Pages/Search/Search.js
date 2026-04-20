@@ -3,10 +3,16 @@ import React, {  useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNav from '../../Components/BottomNav/BottomNav';
 import { SearchApi } from '../../Api/SearchStoryApi';
+import { SkeletonCard } from '../../LoadingUI/playerSkeleton/skeleton';
 import './Search.css';
 
 const SearchPage = () => {
+
   const navigate = useNavigate();
+
+
+  const [recommendloading, setRecommendLoading] = useState(true);
+
 
   // Most Searched Stories State 
   const [mostSearched, setMostSearched] = useState([]);
@@ -14,12 +20,16 @@ const SearchPage = () => {
     const fetchMostSearched = async () => {
       try {
         const data = await SearchApi();
-        setMostSearched(data);
+        if(data.success) {
+          setRecommendLoading(false);
+          setMostSearched(data.data);
+          console.log("Most searched stories:", data.data);
+        } 
       } catch (error) {
         console.error('Failed to fetch most searched stories:', error);
       }
     };
-
+    setRecommendLoading(true);
     fetchMostSearched();
   }, []);
 
@@ -77,7 +87,14 @@ const SearchPage = () => {
 
       {/* Stories Grid */}
       <div className="stories-container">
-        {mostSearched.length > 0 ? (
+        { recommendloading ? (
+          <div className="stories-grid">
+            {Array.from({ length: 18 }).map((_, index) => (
+              <SkeletonCard key={index} />
+            ))}
+          </div>
+        ) 
+        :mostSearched.length > 0 ? (
           <div className="stories-grid"
           >
             {mostSearched.map(story => (

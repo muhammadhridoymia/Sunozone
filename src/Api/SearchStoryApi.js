@@ -12,7 +12,7 @@ export const SearchApi = async () => {
     
     const data = await response.json();
     console.log('Fetched stories most searched data:', data);
-    return data.data;
+    return data;
   } catch (error) {
     console.error('Error fetching most searched stories:', error);
     throw error;

@@ -149,6 +149,15 @@
 }
 
 /* ========== ACTION BUTTONS ========== */
+.like-loader {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #b91c1c;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
 .apx-actions {
   display: flex;
   flex-wrap: wrap;
