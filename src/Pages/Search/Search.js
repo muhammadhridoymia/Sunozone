@@ -34,11 +34,19 @@ const SearchPage = () => {
   }, []);
 
   const categories = [
-    { id: 'all', name: 'All Stories', key: 'all' },
-    { id: 'love', name: 'Love Story', key: 'love story' },
-    { id: 'sad', name: 'Sad', key: 'sad' },
-    { id: 'famous', name: 'Famous People', key: 'famaus people' },
-    { id: 'novel', name: 'Novel', key: 'noval' }
+    "Moral Story",
+    "Adventure",
+    "Love & Romance",
+    "Motivational",
+    "Sad & Emotional",
+    "Comedy",
+    "Fantasy",
+    "Educational",
+    "Horror",
+    "Islamic/Moral",
+    "Folktale",
+    "Science Fiction",
+    "Others",
   ];
 
   const handleStoryClick = (story) => {
@@ -75,11 +83,11 @@ const SearchPage = () => {
       {/* Category Bar */}
       <div className="category-bar">
         <div className="category-wrapper">
-          {categories.map(category => (
+          {categories.map((category,index) => (
             <button
-              key={category.id}
+              key={index}
               className={`category-btn`}            >
-              {category.name}
+              {category}
             </button>
           ))}
         </div>

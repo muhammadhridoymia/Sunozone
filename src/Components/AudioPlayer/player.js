@@ -50,6 +50,7 @@ const AudioPlayer = () => {
   const [isAudioLoading, setIsAudioLoading] = useState(true);
   const [banglaAudio, setBanglaAudio] = useState(null);
   const [englishAudio, setEnglishAudio] = useState(null);
+  const [aribicAudio, setArabicAudio] = useState(null);
   const [selectedAudio, setSelectedAudio] = useState(null);
   const [isBangla, setIsBangla] = useState(true);
 
@@ -68,12 +69,14 @@ const AudioPlayer = () => {
           setIsLiked(audioData?.isLiked);
           setBanglaAudio(audioData?.audio?.bangla?.url || null);
           setEnglishAudio(audioData?.audio?.english?.url || null);
+          setArabicAudio(audioData?.audio?.arabic?.url || null);
 
-          // Set audio as default
+          // Set audio as default if bangla is available, otherwise english, then arabic
           setSelectedAudio(
-            isBangla
-              ? audioData?.audio?.bangla?.url
-              : audioData?.audio?.english?.url,
+            audioData?.audio?.bangla?.url ||
+              audioData?.audio?.english?.url ||
+              audioData?.audio?.arabic?.url ||
+              null,
           );
         } else {
           console.error("Failed to load audio for story");
@@ -439,6 +442,15 @@ const AudioPlayer = () => {
                 disabled={isAudioLoading}
               >
                 English
+              </button>
+            )}
+            {aribicAudio && (
+              <button
+                className={`apx-action ${!isBangla ? "active-audio" : ""}`}
+                onClick={() => audioChangeControl("arabic")}
+                disabled={isAudioLoading}
+              >
+                Arabic
               </button>
             )}
           </div>

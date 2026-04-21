@@ -4,7 +4,7 @@ import "./ReadingPopup.css";
 function ReadingPopup({ text, onClose }) {
   const [fontSize, setFontSize] = useState(18);
   const [theme, setTheme] = useState("light");
-  const [isBangla, setIsBangla] = useState(true);
+  const [selectedLanguage, setSelectedLanguage] = useState("bangla");
 
   // Close on escape key
   useEffect(() => {
@@ -48,24 +48,35 @@ function ReadingPopup({ text, onClose }) {
             >
               {theme === "light" ? "📖" : "☀️"}
             </button>
-            <button hidden={text?.text?.bangla === ""} className="control-btn" onClick={() => setIsBangla(true)}>
+            <button hidden={text?.text?.bangla === "" || text?.text?.bangla === undefined} className="control-btn" onClick={() => setSelectedLanguage("bangla")}>
               Bangla
             </button>
-            <button hidden={text?.text?.english === ""} className="control-btn" onClick={() => setIsBangla(false)}>
+            <button hidden={text?.text?.english === "" || text?.text?.english === undefined} className="control-btn" onClick={() => setSelectedLanguage("english")}>
               English
             </button>
+            <button hidden={text?.text?.arabic === "" || text?.text?.arabic === undefined} className="control-btn" onClick={() => setSelectedLanguage("arabic")}>
+              Arabic
+            </button>
+            <div className="close-container">
+         </div>
           </div>
-          <button className="close-btn" onClick={onClose}>
-            ×
+          <button className="close-btn" onClick={onClose} aria-label="Close reading popup">
+            &times;
           </button>
         </div>
 
         {/* Book content */}
         <div className={`book-content ${theme}`}>
           <div className="book-page" style={{ fontSize: `${fontSize}px` }}>
-            {isBangla
-              ? text?.text?.bangla || "Loading..."
-              : text?.text?.english || "Loading..."}
+            {selectedLanguage === "bangla" && text?.text?.bangla ? (
+              <p>{text.text.bangla}</p>
+            ) : selectedLanguage === "english" && text?.text?.english ? (
+              <p>{text.text.english}</p>
+            ) : selectedLanguage === "arabic" && text?.text?.arabic ? (
+              <p>{text.text.arabic}</p>
+            ) : (
+              <p>No text available in this language.</p>
+            )}
           </div>
         </div>
       </div>
