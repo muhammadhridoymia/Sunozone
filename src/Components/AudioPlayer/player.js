@@ -50,9 +50,13 @@ const AudioPlayer = () => {
   const [isAudioLoading, setIsAudioLoading] = useState(true);
   const [banglaAudio, setBanglaAudio] = useState(null);
   const [englishAudio, setEnglishAudio] = useState(null);
-  const [aribicAudio, setArabicAudio] = useState(null);
+  const [arabicAudio, setArabicAudio] = useState(null);
   const [selectedAudio, setSelectedAudio] = useState(null);
-  const [isBangla, setIsBangla] = useState(true);
+  const [whichAudio, setWhichAudio] = useState({
+    bangla: false,
+    english: false,
+    arabic: false,
+  });
 
   const audioRef = useRef(null);
 
@@ -72,12 +76,21 @@ const AudioPlayer = () => {
           setArabicAudio(audioData?.audio?.arabic?.url || null);
 
           // Set audio as default if bangla is available, otherwise english, then arabic
-          setSelectedAudio(
-            audioData?.audio?.bangla?.url ||
-              audioData?.audio?.english?.url ||
-              audioData?.audio?.arabic?.url ||
-              null,
-          );
+          let selected = null;
+
+          if (audioData?.audio?.bangla?.url) {
+            setWhichAudio({ ...whichAudio, bangla: true });
+            selected = audioData.audio.bangla.url;
+          } else if (audioData?.audio?.english?.url) {
+            setWhichAudio({ ...whichAudio, english: true });
+            selected = audioData.audio.english.url;
+          } else if (audioData?.audio?.arabic?.url) {
+            setWhichAudio({ ...whichAudio, arabic: true });
+            selected = audioData.audio.arabic.url;
+          }
+          // the selected audio URL
+          setSelectedAudio(selected);
+
         } else {
           console.error("Failed to load audio for story");
         }
@@ -153,7 +166,7 @@ const AudioPlayer = () => {
       }
     } catch (err) {
       console.error("Play failed:", err);
-      setIsPlaying(false); // make sure it resets on failure
+      setIsPlaying(false);
     }
   };
 
@@ -195,15 +208,20 @@ const AudioPlayer = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const newUrl = lang === "bangla" ? banglaAudio : englishAudio;
-    if (!newUrl) return;
-
     // Pause first
     audio.pause();
 
-    // Change source
-    setSelectedAudio(newUrl);
-    setIsBangla(lang === "bangla");
+    if (lang === "bangla") {
+      setWhichAudio({ bangla: true, english: false, arabic: false });
+      setSelectedAudio(banglaAudio);
+    } else if (lang === "english") {
+      setWhichAudio({ bangla: false, english: true, arabic: false });
+      setSelectedAudio(englishAudio);
+    } else if (lang === "arabic") {
+      setWhichAudio({ bangla: false, english: false, arabic: true });
+      setSelectedAudio(arabicAudio);
+    }
+
     setCurrentTime(0);
     setIsPlaying(false);
   };
@@ -427,9 +445,9 @@ const AudioPlayer = () => {
             </button>
             {banglaAudio && (
               <button
-                className={`apx-action ${isBangla ? "active-audio" : ""}`}
+                className={`apx-action ${whichAudio.bangla ? "active-audio" : ""}`}
                 onClick={() => audioChangeControl("bangla")}
-                disabled={isAudioLoading}
+                disabled={isAudioLoading || whichAudio.bangla}
               >
                 Bangla
               </button>
@@ -437,18 +455,18 @@ const AudioPlayer = () => {
 
             {englishAudio && (
               <button
-                className={`apx-action ${!isBangla ? "active-audio" : ""}`}
+                className={`apx-action ${whichAudio.english ? "active-audio" : ""}`}
                 onClick={() => audioChangeControl("english")}
-                disabled={isAudioLoading}
+                disabled={isAudioLoading || whichAudio.english}
               >
                 English
               </button>
             )}
-            {aribicAudio && (
+            {arabicAudio && (
               <button
-                className={`apx-action ${!isBangla ? "active-audio" : ""}`}
+                className={`apx-action ${whichAudio.arabic ? "active-audio" : ""}`}
                 onClick={() => audioChangeControl("arabic")}
-                disabled={isAudioLoading}
+                disabled={isAudioLoading || whichAudio.arabic}
               >
                 Arabic
               </button>
@@ -483,7 +501,7 @@ const AudioPlayer = () => {
 
                       {/* Duration Badge */}
                       <div className="duration-badge">
-                        {story.duration || "0:00"}m
+                        {story.duration +":00" || "0:00"}
                       </div>
                     </div>
 
