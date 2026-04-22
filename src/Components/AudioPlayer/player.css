@@ -1,4 +1,4 @@
-/* ========== BASE ========== */
+
 .apx-container {
   background: #f5f7fa;
   color: #1e293b;
@@ -12,7 +12,7 @@
   padding: 16px;
 }
 
-/* ========== IMAGE ========== */
+
 .apx-img-box {
   position: relative;
   width: 100%;
@@ -34,7 +34,7 @@
   background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
 }
 
-/* ========== TEXT ========== */
+
 .apx-info {
   margin-top: 14px;
 }
@@ -50,7 +50,7 @@
   color: #64748b;
 }
 
-/* ========== SEEK BAR ========== */
+
 .apx-seek-wrap {
   margin-top: 18px;
 }
@@ -71,7 +71,8 @@
   cursor: not-allowed;
   opacity: 0.6;
 }
-/* ========== CONTROLS ========== */
+
+
 .apx-controls {
   display: flex;
   justify-content: center;
@@ -148,7 +149,7 @@
   transform: scale(1.08);
 }
 
-/* ========== ACTION BUTTONS ========== */
+
 .like-loader {
   width: 10px;
   height: 10px;
@@ -196,7 +197,7 @@
   color: #eaeced;
 }
 
-/* ========== RELATED ========== */
+
 .related-section {
   padding: 24px 0;
   width: 100%;
@@ -254,7 +255,7 @@
   transition: transform 0.25s ease;
 }
 
-.video-card:hover .thumbnail {
+.story-card:hover .thumbnail {
   transform: scale(1.04);
 }
 
@@ -291,13 +292,13 @@
 }
 
 .card-author {
-  color: #bbbbbb;
+  color: #010101;
   font-size: 0.96rem;
   margin: 0 0 6px 0;
 }
 
 .card-meta {
-  color: #aaaaaa;
+  color: #807a7a;
   font-size: 0.92rem;
 }
 
@@ -308,6 +309,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .related-grid {
+    padding: 0 8px;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 20px 12px;
   }
