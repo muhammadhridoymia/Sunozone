@@ -4,13 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import BottomNav from '../../Components/BottomNav/BottomNav';
 import { MostSearchApi,SearchApi } from '../../Api/SearchStoryApi';
 import { SkeletonCard } from '../../LoadingUI/playerSkeleton/skeleton';
+import { useLocation } from "react-router-dom";
 import './Search.css';
 
 const SearchPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchText = new URLSearchParams(location.search).get('category') || "";
 
-    const navigate = useNavigate();
 
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState(searchText || "");
     const [searchLoading, setSearchLoading] = useState(false);
     const [mostSearched, setMostSearched] = useState([]);
     const [recommendloading, setRecommendLoading] = useState(false);
@@ -26,6 +29,7 @@ const SearchPage = () => {
       setSearchLoading(true);
       const data = await SearchApi(query);
       if(data.success) {
+        setRecommendLoading(false);
         setMostSearched(data.data);
         console.log("Search results:", data.data);
       } 
@@ -53,8 +57,13 @@ const SearchPage = () => {
 
   useEffect(() => {
     setRecommendLoading(true);
-    fetchMostSearched();
-  }, []);
+
+    if(searchText.trim()==="") {
+      fetchMostSearched();
+    } else {
+      SearchHandler(searchText);
+    }
+  }, [searchText]);
 
   const categories = [
     {id:1,name:"moral story"},
@@ -96,7 +105,7 @@ const SearchPage = () => {
           />
           <button 
           className="search-button" 
-          onClick={() => SearchHandler(searchQuery)}
+          onClick={() => navigate(`/search?category=${encodeURIComponent(searchQuery)}`)}
           disabled={searchLoading}>
             {searchLoading ? (
               <div className="search-loading-spinner"></div>
@@ -114,11 +123,11 @@ const SearchPage = () => {
       {/* Category Bar */}
       <div className="category-bar">
         <div className="category-wrapper">
-          {categories.map((category,index) => (
+          {categories.map((category) => (
             <button
               key={category.id}
               className={`category-btn`}
-              onClick={() => {SearchHandler(category.name); setSearchQuery(category.name)}}
+              onClick={() => {navigate(`/search?category=${encodeURIComponent(category.name)}`); setSearchQuery(category.name)}}
             >
               {category.name}
             </button>

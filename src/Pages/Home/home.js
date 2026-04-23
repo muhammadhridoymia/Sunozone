@@ -25,6 +25,7 @@ const Home = () => {
     setYearlyTopStories,
   } = useApi();
 
+
   // Fetch weekly stories
   useEffect(() => {
     if (callWeekly && weeklyTopStories.length === 0) {
@@ -109,7 +110,7 @@ const Home = () => {
   };
 
   const handleSeeAllClick = (category) => {
-    alert(`✨ See all ${category} stories - Discover more amazing tales!`);
+    navigate(`/search?category=${encodeURIComponent(category)}`);
   };
 
   const scrollLeft = (ref) => {
@@ -153,7 +154,8 @@ const Home = () => {
         <div className="banner" onClick={()=> navigate("/search")}>
           <img src={bannerUrl} alt="Listening Banner" className="banner-image" />
           <div className="banner-content">
-            <h2>Discover Your Next Favorite Story</h2>
+            <h2>Listen Your Favorite Story</h2>
+            <button className="banner-btn">Explore Now</button>
           </div>
 
         </div>

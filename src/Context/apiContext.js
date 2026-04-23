@@ -8,6 +8,7 @@ export const ApiProvider = ({ children }) => {
   const [TopStories, setTopStories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
 
     const [weeklyTopStories, setWeeklyTopStories] = useState([]);
@@ -70,6 +71,8 @@ export const ApiProvider = ({ children }) => {
     setWeeklyTopStories,
     setMonthlyTopStories,
     setYearlyTopStories,
+      searchText,
+    setSearchText,
   };
 
   return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
