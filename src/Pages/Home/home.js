@@ -9,6 +9,9 @@ const Home = () => {
   const [callWeekly, setCallWeekly] = useState(false);
   const [callMonthly, setCallMonthly] = useState(false);
   const [callYearly, setCallYearly] = useState(false);
+
+  const bannerUrl ="https://res.cloudinary.com/dyqmmzz5f/image/upload/v1776931178/listenBanner_tkoqye.png";
+
   //Context State and API calls
   const {
     TopStories,
@@ -140,25 +143,20 @@ const Home = () => {
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          Search Stories
+          Search
         </button>
       </div>
 
       {/* Main Content */}
       <div className="main-content">
         {/* Banner Section */}
-        <div className="banner" onClick={handleSearchClick}>
+        <div className="banner" onClick={()=> navigate("/search")}>
+          <img src={bannerUrl} alt="Listening Banner" className="banner-image" />
           <div className="banner-content">
-            <div className="banner-badge">✨ NEW</div>
             <h2>Discover Your Next Favorite Story</h2>
-            <p>
-              Listen or read thousands of captivating tales from amazing authors
-              worldwide
-            </p>
-            <button className="banner-btn">Start Reading →</button>
           </div>
-        </div>
 
+        </div>
         {/* Top Stories Section - Horizontal Scroll */}
         <section className="stories-section">
           <div className="section-header">
@@ -199,7 +197,7 @@ const Home = () => {
                         />
                         <div className="story-overlay">
                           <span className="listen-badge">
-                            🎧 {story.duration || "0:00"}m
+                            🎧 {story.duration + ":00" || "0:00"}
                           </span>
                         </div>
                       </div>
@@ -269,7 +267,7 @@ const Home = () => {
                         />
                         <div className="story-overlay">
                           <span className="listen-badge">
-                            🎧 {story.duration || "0:00"}m
+                            🎧 {story.duration + ":00" || "0:00"}
                           </span>
                         </div>
                       </div>
@@ -339,7 +337,7 @@ const Home = () => {
                         />
                         <div className="story-overlay">
                           <span className="listen-badge">
-                            🎧 {story.duration || "0:00"}m
+                            🎧 {story.duration + ":00" || "0:00"}
                           </span>
                         </div>
                       </div>
@@ -409,7 +407,7 @@ const Home = () => {
                         />
                         <div className="story-overlay">
                           <span className="listen-badge">
-                            🎧 {story.duration || "0:00"}m
+                            🎧 {story.duration + ":00" || "0:00"}
                           </span>
                         </div>
                       </div>

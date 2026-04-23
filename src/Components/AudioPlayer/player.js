@@ -449,7 +449,7 @@ const AudioPlayer = () => {
                 onClick={() => audioChangeControl("bangla")}
                 disabled={isAudioLoading || whichAudio.bangla}
               >
-                Bangla
+                Bangla Audio
               </button>
             )}
 
@@ -459,7 +459,7 @@ const AudioPlayer = () => {
                 onClick={() => audioChangeControl("english")}
                 disabled={isAudioLoading || whichAudio.english}
               >
-                English
+                English Audio
               </button>
             )}
             {arabicAudio && (
@@ -468,7 +468,7 @@ const AudioPlayer = () => {
                 onClick={() => audioChangeControl("arabic")}
                 disabled={isAudioLoading || whichAudio.arabic}
               >
-                Arabic
+                Arabic Audio
               </button>
             )}
           </div>

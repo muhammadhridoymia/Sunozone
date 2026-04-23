@@ -16,15 +16,15 @@ const SearchPage = () => {
     const [recommendloading, setRecommendLoading] = useState(false);
 
 
-  const SearchHandler = async () => {
+  const SearchHandler = async (query) => {
 
-    if (!searchQuery.trim()) {
-      // alert('Please enter a search query');
+    if (!query.trim()) {
+      fetchMostSearched();
       return;
     }
     try {
       setSearchLoading(true);
-      const data = await SearchApi(searchQuery);
+      const data = await SearchApi(query);
       if(data.success) {
         setMostSearched(data.data);
         console.log("Search results:", data.data);
@@ -38,8 +38,7 @@ const SearchPage = () => {
 
 
   // Most Searched Stories State 
-  useEffect(() => {
-    const fetchMostSearched = async () => {
+  const fetchMostSearched = async () => {
       try {
         const data = await MostSearchApi();
         if(data.success) {
@@ -51,6 +50,8 @@ const SearchPage = () => {
         console.error('Failed to fetch most searched stories:', error);
       }
     };
+
+  useEffect(() => {
     setRecommendLoading(true);
     fetchMostSearched();
   }, []);
@@ -95,12 +96,15 @@ const SearchPage = () => {
           />
           <button 
           className="search-button" 
-          onClick={SearchHandler}
+          onClick={() => SearchHandler(searchQuery)}
           disabled={searchLoading}>
-            <svg className="search-icon" viewBox="0 0 24 24" width="20" height="20">
-              <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-            </svg>
-            {searchLoading && <span className="loading">Searching...</span>}
+            {searchLoading ? (
+              <div className="search-loading-spinner"></div>
+            ) : (
+              <svg viewBox="0 0 24 24" width="18" height="18">
+                <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+              </svg>
+            )}
           </button>
         </div>
         
@@ -113,7 +117,9 @@ const SearchPage = () => {
           {categories.map((category,index) => (
             <button
               key={category.id}
-              className={`category-btn`}            >
+              className={`category-btn`}
+              onClick={() => {SearchHandler(category.name); setSearchQuery(category.name)}}
+            >
               {category.name}
             </button>
           ))}
