@@ -95,7 +95,7 @@ const SearchPage = () => {
         </div>
         
         {/* Centered Search Bar */}
-        <div className="search-container">
+        <form className="search-container" onSubmit={(e) => {e.preventDefault(); SearchHandler(searchQuery);}}>
           <input
             type="text"
             className="search-input"
@@ -106,7 +106,10 @@ const SearchPage = () => {
           <button 
           className="search-button" 
           onClick={() => navigate(`/search?category=${encodeURIComponent(searchQuery)}`)}
-          disabled={searchLoading}>
+          disabled={searchLoading}
+          type="submit"
+          >
+            
             {searchLoading ? (
               <div className="search-loading-spinner"></div>
             ) : (
@@ -115,7 +118,7 @@ const SearchPage = () => {
               </svg>
             )}
           </button>
-        </div>
+        </form>
         
         <div className="header-placeholder"></div>
       </header>
